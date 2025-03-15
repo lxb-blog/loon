@@ -9,7 +9,7 @@
             if (chapter.chapterDetailRspList) {
                 // 修改每个章节中的 `isFreeListen` 属性
                 chapter.chapterDetailRspList.forEach(function(detail) {
-                    detail.isFreeListen = 0;
+                    detail.isFreeListen = 1;
                 });
             }
         });
