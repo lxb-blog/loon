@@ -9,6 +9,17 @@ function modifyIsFreeListen(data) {
         for (let key in data) {
             if (key === "isFreeListen") {
                 data[key] = 1; // 强制修改为 1
+            } else if (key === "courseChapterRspList") {
+                // 针对章节列表，遍历每个章节
+                data[key].forEach(chapter => {
+                    if (chapter.chapterDetailRspList) {
+                        chapter.chapterDetailRspList.forEach(detail => {
+                            if (detail.isFreeListen !== undefined) {
+                                detail.isFreeListen = 1; // 修改章节详情中的 isFreeListen 字段
+                            }
+                        });
+                    }
+                });
             } else if (Array.isArray(data[key])) {
                 modifyIsFreeListen(data[key]); // 如果是数组，递归遍历数组中的元素
             } else if (typeof data[key] === "object") {
