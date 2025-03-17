@@ -3,7 +3,7 @@ const targetURL = 'https://japi.233.com/ess-study-api/learn/do/list-chapter-by-v
 if ($response.status === 200 && $request.url.indexOf(targetURL) !== -1) {
     try {
         let body = JSON.parse($response.body);
-        deepModify(body, 'isFreeListen', 0);
+        deepModify(body, 'isFreeListen', 1);
         $done({ body: JSON.stringify(body) });
     } catch (error) {
         console.log(`Error processing response: ${error}`);
