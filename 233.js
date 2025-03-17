@@ -1,6 +1,29 @@
-let body = $response.body;
+const targetURL = 'https://japi.233.com/ess-study-api/learn/do/list-chapter-by-version-id';
 
-// 使用正则表达式匹配所有的 isFreeListen 字段并修改它们的值
-body = body.replace(/("isFreeListen"\s*:\s*)\d+/g, '$1 1');  // 匹配所有的 isFreeListen 字段并把值改为 1
+if ($response.status === 200 && $request.url.indexOf(targetURL) !== -1) {
+    try {
+        let body = JSON.parse($response.body);
+        deepModify(body, 'isFreeListen', 0);
+        $done({ body: JSON.stringify(body) });
+    } catch (error) {
+        console.log(`Error processing response: ${error}`);
+        $done({});
+    }
+} else {
+    $done({});
+}
 
-$done({ body });
+// 递归遍历对象修改指定属性
+function deepModify(obj, targetKey, newValue) {
+    if (obj instanceof Array) {
+        obj.forEach(item => deepModify(item, targetKey, newValue));
+    } else if (obj instanceof Object) {
+        for (const key in obj) {
+            if (key === targetKey) {
+                obj[key] = newValue;
+            } else {
+                deepModify(obj[key], targetKey, newValue);
+            }
+        }
+    }
+}
