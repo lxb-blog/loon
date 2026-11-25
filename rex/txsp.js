@@ -2,9 +2,9 @@
 var WidgetMetadata = {
   id: "com.rex.txxkl7s60j",
   title: "糖心Vlog",
-  version: "1.0.7",
+  version: "1.0.8",
   requiredVersion: "0.0.1",
-  description: "糖心Vlog 首页精选、分区频道、标签筛选、搜索、详情、Worker 播放线路与弹幕（限频熔断+封面代理）",
+  description: "糖心Vlog 首页精选、分区频道、标签筛选、搜索、详情、Worker 播放线路与弹幕（限频熔断+封面代理+自定义域名）",
   author: "Rex Module",
   site: "https://txxkl7s60j.com",
   contentType: "video",
@@ -407,7 +407,7 @@ function gunzip(src){
 var TX_BASE = "https://txxkl7s60j.com";
 var TX_UPSTREAM_HOST = "txxkl7s60j.com";
 var TX_WORKER_BASE = "https://txscript.pages.dev/tx";
-var TX_RELAY_BASE = "https://tx-relay.648226460.workers.dev";
+var TX_RELAY_BASE = "https://tx.siyouyun.eu.org";
 var TX_APPKEY = "e0202eee7ef7807f";
 var TX_SECRET = "2DCiXDoNmuQrJjxktdLPy5cXcVhoC5pw|";
 var TX_STORE = "tx_vlog_session_v1";
@@ -638,7 +638,9 @@ function txItem(m, sectionName) {
     id: id, type: "url", link: "tx:" + id,
     title: m.name || "",
     subtitle: sectionName || m.cat_name || (m.user_id && m.user_id[0] ? m.user_id[0].nickname : "") || "",
+    posterPath: txImg(m.img || ""),
     coverUrl: txImg(m.img || ""),
+    backdropPath: txImg(m.img || ""),
     description: m.description || "",
     rating: m.score || m.rating || "",
     duration: txDuration(m.duration),
@@ -780,7 +782,8 @@ async function loadDetail(link) {
   return {
     id: String(m.id || id), type: "url", link: link,
     title: m.name || "", description: m.description || "",
-    coverUrl: txImg(m.img || ""), backdropPaths: [],
+    posterPath: txImg(m.img || ""),
+    coverUrl: txImg(m.img || ""), backdropPath: txImg(m.img || ""), backdropPaths: [],
     rating: m.score || "", duration: txDuration(m.duration),
     releaseDate: m.show_at || "",
     genreItems: genres, peoples: people,
