@@ -2,9 +2,9 @@
 var WidgetMetadata = {
   id: "com.rex.txxkl7s60j",
   title: "糖心Vlog",
-  version: "1.1.2",
+  version: "1.1.3",
   requiredVersion: "0.0.1",
-  description: "糖心Vlog",
+  description: "糖心Vlog 一级频道独立入口+全量三级分类（8频道/36板块/146标签）、搜索、详情、Worker 播放、弹幕、封面过滤",
   author: "Rex Module",
   site: "https://txxkl7s60j.com",
   contentType: "video",
@@ -984,8 +984,7 @@ function txItem(m, sectionName) {
   var item = {
     id: id, type: "url", link: "tx:" + id,
     title: m.name || authorName || "未命名",
-    // 副标题优先用作者名（视频卡）；板块名只作为无作者时的兜底。
-    subtitle: authorName || m.cat_name || sectionName || "",
+    subtitle: sectionName || m.cat_name || authorName || "",
     posterPath: txImg(m.img || ""),
     coverUrl: txImg(m.img || ""),
     backdropPath: txImg(m.img || ""),
