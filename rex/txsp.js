@@ -2,9 +2,9 @@
 var WidgetMetadata = {
   id: "com.rex.txxkl7s60j",
   title: "糖心Vlog",
-  version: "1.2.6",
+  version: "1.4.2",
   requiredVersion: "0.0.1",
-  description: "糖心Vlog 一级频道独立入口+各频道板块动态筛选（含排序参数；国产用筛选项作板块）+动态标签筛选+搜索+详情+Worker 播放+弹幕+封面过滤；下拉刷新实时拉最新；修复典藏/国产(video_3)频道内容为空",
+  description: "糖心Vlog 一级频道独立入口+板块/标签/完整列表全由服务器提供；刷新由服务器定时+后台按钮负责+动态标签筛选+搜索+详情+Worker 播放+弹幕+封面过滤；下拉刷新实时拉最新；修复典藏/国产(video_3)频道内容为空",
   author: "Rex Module",
   site: "https://txxkl7s60j.com",
   contentType: "video",
@@ -16,10 +16,8 @@ var WidgetMetadata = {
     { id: "home", title: "首页精选", functionName: "loadHome", cacheDuration: 0,
       params: [
         { name: "section", title: "板块（动态获取）", type: "enumeration",
-          dynamicOptions: { functionName: "loadSectionOptions", dependsOn: ["sectionRefresh"] },
-          enumOptions: [{ title: "全部板块", value: "" }, { title: "糖心vlog ❤️ 专注原创100年", value: "1" }, { title: "新人驾到—糖心宝藏新人✨", value: "3" }, { title: "糖心次元—Coser少女天花板", value: "5" }, { title: "糖心福利姬—肤白鲍美水多", value: "8" }, { title: "糖心Vloger—发现更多精彩💯", value: "244" }, { title: "糖心乱伦—爸爸内射给我", value: "238" }, { title: "每晚22:00准时更新  每天都有新发现", value: "21" }, { title: "国产精品—天生の精盆肉便器", value: "255" }, { title: "东北热—中国人自己的“东京热”", value: "245" }, { title: "反差母狗—白天女神 晚上母狗", value: "6" }, { title: "国产小视频—越刷越带劲", value: "22" }, { title: "黑料情报局—吃瓜第一线", value: "256" }, { title: "糖心女郎", value: "187" }, { title: "Nanataipei", value: "40" }, { title: "饼干姐姐", value: "43" }, { title: "西野加奈", value: "185" }, { title: "情深叉喔", value: "217" }, { title: "菠萝啤beer", value: "38" }, { title: "玩偶姐姐—口罩&眼神的“纯欲”鼻祖", value: "87" }, { title: "下面有根棒棒糖—你一顶我就叫～", value: "88" }, { title: "Apple—淫骚丝袜美少妇", value: "89" }, { title: "Yua—小日子的“挖矿”能手", value: "90" }, { title: "刘玥—臣服在洋屌之下的清华留子", value: "91" }, { title: "柚子猫Yuzukitty—甜蜜心动的二次元女友", value: "42" }, { title: "黑猫露娜酱", value: "223" }, { title: "菜菜最花", value: "219" }, { title: "工藤静香", value: "220" }, { title: "蜡笔甜心", value: "221" }, { title: "酒酱", value: "224" }, { title: "小奈", value: "222" }, { title: "逢泽美优", value: "197" }, { title: "河北彩花", value: "132" }, { title: "松本一香", value: "200" }, { title: "濑户环奈", value: "212" }, { title: "美园和花", value: "213" }, { title: "北冈果林", value: "214" }] },
-        { name: "sectionRefresh", title: "刷新板块", type: "enumeration",
-          enumOptions: [{ title: "使用缓存（快）", value: "0" }, { title: "强制从站点更新", value: "1" }] },
+          dynamicOptions: { functionName: "loadSectionOptions" },
+          enumOptions: [{ title: "全部板块", value: "" }] },
         { name: "order", title: "排序", type: "enumeration", enumOptions: [
             { title: "最新", value: "new" },
             { title: "热度最高", value: "hot" },
@@ -38,10 +36,8 @@ var WidgetMetadata = {
             { title: "最多收藏", value: "favorite" }
           ] },
         { name: "section", title: "板块（动态获取）", type: "enumeration",
-          dynamicOptions: { functionName: "loadSectionOptions", dependsOn: ["sectionRefresh"] },
-          enumOptions: [{ title: "全部板块", value: "" }, { title: "糖心vlog ❤️ 专注原创100年", value: "1" }, { title: "新人驾到—糖心宝藏新人✨", value: "3" }, { title: "糖心次元—Coser少女天花板", value: "5" }, { title: "糖心福利姬—肤白鲍美水多", value: "8" }, { title: "糖心Vloger—发现更多精彩💯", value: "244" }, { title: "糖心乱伦—爸爸内射给我", value: "238" }] },
-        { name: "sectionRefresh", title: "刷新板块", type: "enumeration",
-          enumOptions: [{ title: "使用缓存（快）", value: "0" }, { title: "强制从站点更新", value: "1" }] },
+          dynamicOptions: { functionName: "loadSectionOptions" },
+          enumOptions: [{ title: "全部板块", value: "" }] },
         { name: "page", title: "页码", type: "page" }
       ] },
     { id: "ch2", title: "频道 · 最新", functionName: "loadBlocks", cacheDuration: 0,
@@ -54,10 +50,8 @@ var WidgetMetadata = {
             { title: "最多收藏", value: "favorite" }
           ] },
         { name: "section", title: "板块（动态获取）", type: "enumeration",
-          dynamicOptions: { functionName: "loadSectionOptions", dependsOn: ["sectionRefresh"] },
-          enumOptions: [{ title: "全部板块", value: "" }, { title: "每晚22:00准时更新  每天都有新发现", value: "21" }, { title: "国产精品—天生の精盆肉便器", value: "255" }, { title: "东北热—中国人自己的“东京热”", value: "245" }, { title: "反差母狗—白天女神 晚上母狗", value: "6" }, { title: "国产小视频—越刷越带劲", value: "22" }, { title: "黑料情报局—吃瓜第一线", value: "256" }] },
-        { name: "sectionRefresh", title: "刷新板块", type: "enumeration",
-          enumOptions: [{ title: "使用缓存（快）", value: "0" }, { title: "强制从站点更新", value: "1" }] },
+          dynamicOptions: { functionName: "loadSectionOptions" },
+          enumOptions: [{ title: "全部板块", value: "" }] },
         { name: "page", title: "页码", type: "page" }
       ] },
     { id: "ch4", title: "频道 · 原创", functionName: "loadBlocks", cacheDuration: 0,
@@ -70,10 +64,8 @@ var WidgetMetadata = {
             { title: "最多收藏", value: "favorite" }
           ] },
         { name: "section", title: "板块（动态获取）", type: "enumeration",
-          dynamicOptions: { functionName: "loadSectionOptions", dependsOn: ["sectionRefresh"] },
-          enumOptions: [{ title: "全部板块", value: "" }, { title: "糖心女郎", value: "187" }, { title: "Nanataipei", value: "40" }, { title: "饼干姐姐", value: "43" }, { title: "西野加奈", value: "185" }, { title: "情深叉喔", value: "217" }, { title: "菠萝啤beer", value: "38" }] },
-        { name: "sectionRefresh", title: "刷新板块", type: "enumeration",
-          enumOptions: [{ title: "使用缓存（快）", value: "0" }, { title: "强制从站点更新", value: "1" }] },
+          dynamicOptions: { functionName: "loadSectionOptions" },
+          enumOptions: [{ title: "全部板块", value: "" }] },
         { name: "page", title: "页码", type: "page" }
       ] },
     { id: "ch7", title: "频道 · 网黄", functionName: "loadBlocks", cacheDuration: 0,
@@ -86,10 +78,8 @@ var WidgetMetadata = {
             { title: "最多收藏", value: "favorite" }
           ] },
         { name: "section", title: "板块（动态获取）", type: "enumeration",
-          dynamicOptions: { functionName: "loadSectionOptions", dependsOn: ["sectionRefresh"] },
-          enumOptions: [{ title: "全部板块", value: "" }, { title: "玩偶姐姐—口罩&眼神的“纯欲”鼻祖", value: "87" }, { title: "下面有根棒棒糖—你一顶我就叫～", value: "88" }, { title: "Apple—淫骚丝袜美少妇", value: "89" }, { title: "Yua—小日子的“挖矿”能手", value: "90" }, { title: "刘玥—臣服在洋屌之下的清华留子", value: "91" }, { title: "柚子猫Yuzukitty—甜蜜心动的二次元女友", value: "42" }] },
-        { name: "sectionRefresh", title: "刷新板块", type: "enumeration",
-          enumOptions: [{ title: "使用缓存（快）", value: "0" }, { title: "强制从站点更新", value: "1" }] },
+          dynamicOptions: { functionName: "loadSectionOptions" },
+          enumOptions: [{ title: "全部板块", value: "" }] },
         { name: "page", title: "页码", type: "page" }
       ] },
     { id: "ch8", title: "频道 · 福利姬", functionName: "loadBlocks", cacheDuration: 0,
@@ -102,10 +92,8 @@ var WidgetMetadata = {
             { title: "最多收藏", value: "favorite" }
           ] },
         { name: "section", title: "板块（动态获取）", type: "enumeration",
-          dynamicOptions: { functionName: "loadSectionOptions", dependsOn: ["sectionRefresh"] },
-          enumOptions: [{ title: "全部板块", value: "" }, { title: "黑猫露娜酱", value: "223" }, { title: "菜菜最花", value: "219" }, { title: "工藤静香", value: "220" }, { title: "蜡笔甜心", value: "221" }, { title: "酒酱", value: "224" }, { title: "小奈", value: "222" }] },
-        { name: "sectionRefresh", title: "刷新板块", type: "enumeration",
-          enumOptions: [{ title: "使用缓存（快）", value: "0" }, { title: "强制从站点更新", value: "1" }] },
+          dynamicOptions: { functionName: "loadSectionOptions" },
+          enumOptions: [{ title: "全部板块", value: "" }] },
         { name: "page", title: "页码", type: "page" }
       ] },
     { id: "ch20", title: "频道 · 典藏", functionName: "loadBlocks", cacheDuration: 0,
@@ -129,10 +117,8 @@ var WidgetMetadata = {
             { title: "最多收藏", value: "favorite" }
           ] },
         { name: "section", title: "板块（动态获取）", type: "enumeration",
-          dynamicOptions: { functionName: "loadSectionOptions", dependsOn: ["sectionRefresh"] },
-          enumOptions: [{ title: "全部板块", value: "" }, { title: "逢泽美优", value: "197" }, { title: "河北彩花", value: "132" }, { title: "松本一香", value: "200" }, { title: "濑户环奈", value: "212" }, { title: "美园和花", value: "213" }, { title: "北冈果林", value: "214" }] },
-        { name: "sectionRefresh", title: "刷新板块", type: "enumeration",
-          enumOptions: [{ title: "使用缓存（快）", value: "0" }, { title: "强制从站点更新", value: "1" }] },
+          dynamicOptions: { functionName: "loadSectionOptions" },
+          enumOptions: [{ title: "全部板块", value: "" }] },
         { name: "page", title: "页码", type: "page" }
       ] },
     { id: "ch21", title: "频道 · 国产", functionName: "loadBlocks", cacheDuration: 0,
@@ -145,20 +131,13 @@ var WidgetMetadata = {
             { title: "最多收藏", value: "favorite" }
           ] },
         { name: "section", title: "板块（动态获取）", type: "enumeration",
-          dynamicOptions: { functionName: "loadSectionOptions", dependsOn: ["sectionRefresh"] },
-          enumOptions: [{ title: "全部板块", value: "" }, { title: "国产自拍", value: "240" }, { title: "巨乳萝莉", value: "90" }, { title: "反差母狗", value: "372" }, { title: "绿帽淫妻", value: "694" }, { title: "轻口调教", value: "76" }, { title: "自慰喷水", value: "87" }, { title: "女同百合", value: "452" }, { title: "约炮嫖娼", value: "92" }, { title: "强奸迷奸", value: "155" }, { title: "多人群P", value: "342" }, { title: "勾引搭讪", value: "343" }, { title: "车震野战", value: "577" }, { title: "黑料泄密", value: "548" }, { title: "全家乱伦", value: "104" }, { title: "清纯学妹", value: "113" }, { title: "偷拍实录", value: "275" }] },
-        { name: "sectionRefresh", title: "刷新板块", type: "enumeration",
-          enumOptions: [{ title: "使用缓存（快）", value: "0" }, { title: "强制从站点更新", value: "1" }] },
+          dynamicOptions: { functionName: "loadSectionOptions" },
+          enumOptions: [{ title: "全部板块", value: "" }] },
         { name: "page", title: "页码", type: "page" }
       ] },
-    { id: "tag", title: "标签筛选（146 个标签）", functionName: "loadTag", cacheDuration: 0,
+    { id: "tag", title: "标签筛选", functionName: "loadTag", cacheDuration: 0,
       params: [
-        { name: "tag", title: "三级·标签", type: "enumeration", dynamicOptions: { functionName: "loadTagOptions", dependsOn: ["tagRefresh"] }, enumOptions: [
-          { title: "全部标签", value: "" },
-          { title: "女神", value: "345" }, { title: "母狗", value: "372" }, { title: "反差", value: "443" }, { title: "SM", value: "556" }, { title: "白虎", value: "89" }, { title: "少女", value: "346" }, { title: "舞蹈", value: "456" }, { title: "巨乳", value: "107" }, { title: "黑丝", value: "323" }, { title: "女仆", value: "335" }, { title: "办公室", value: "437" }, { title: "骑乘", value: "319" }, { title: "白丝", value: "326" }, { title: "淫语", value: "459" }, { title: "娇喘", value: "475" }, { title: "御姐", value: "105" }, { title: "主播", value: "121" }, { title: "足交", value: "312" }, { title: "少妇", value: "333" }, { title: "诱惑", value: "354" }, { title: "潮喷", value: "352" }, { title: "秘书", value: "451" }, { title: "高跟", value: "493" }, { title: "制服", value: "84" }, { title: "护士", value: "148" }, { title: "剧情", value: "330" }, { title: "高潮", value: "338" }, { title: "萝莉", value: "90" }, { title: "颜射", value: "125" }, { title: "双马尾", value: "442" }, { title: "迷奸", value: "155" }, { title: "内射", value: "313" }, { title: "深喉", value: "316" }, { title: "调教", value: "76" }, { title: "痴女", value: "77" }, { title: "勾引", value: "343" }, { title: "后入", value: "66" }, { title: "口爆", value: "91" }, { title: "舔鲍", value: "103" }, { title: "酒店", value: "381" }, { title: "户外", value: "337" }, { title: "黑丝美腿", value: "550" }, { title: "口交", value: "72" }, { title: "人妻", value: "102" }, { title: "爆操", value: "467" }, { title: "喷水", value: "130" }, { title: "极品", value: "341" }, { title: "美臀", value: "145" }, { title: "美乳", value: "469" }, { title: "道具", value: "444" }, { title: "OL", value: "604" }, { title: "白浆", value: "350" }, { title: "百合", value: "452" }, { title: "丝袜", value: "83" }, { title: "美足", value: "447" }, { title: "cosplay1", value: "81" }, { title: "中出", value: "314" }, { title: "69式", value: "78" }, { title: "福利姬", value: "170" }, { title: "自慰", value: "87" }, { title: "粉穴", value: "2696" }, { title: "射精", value: "473" }, { title: "大屌", value: "1011" }, { title: "无码", value: "70" }, { title: "网黄", value: "269" }, { title: "学妹", value: "94" }, { title: "原创up", value: "305" }, { title: "妹妹", value: "332" }, { title: "约炮", value: "92" }, { title: "原创", value: "237" }, { title: "自拍", value: "240" }, { title: "情趣", value: "129" }, { title: "美女", value: "355" }, { title: "乱伦", value: "515" }, { title: "中出内射", value: "682" }, { title: " 乱伦", value: "104" }, { title: "学生", value: "113" }, { title: "老师", value: "324" }, { title: "按摩", value: "331" }, { title: "无套", value: "464" }, { title: "闺蜜", value: "353" }, { title: "妈妈", value: "329" }, { title: "女友", value: "721" }, { title: "第一视角", value: "1741" }, { title: "偷情", value: "336" }, { title: "破处", value: "557" }, { title: "粉嫩", value: "636" }, { title: "探花", value: "272" }, { title: "兄妹乱伦", value: "619" }, { title: "姐姐", value: "327" }, { title: "美腿", value: "465" }, { title: "黑料泄密", value: "548" }, { title: "骚货", value: "594" }, { title: "乳交", value: "311" }, { title: "捆绑", value: "99" }, { title: "上位骑乘", value: "661" }, { title: "抖音风", value: "695" }, { title: "国产", value: "325" }, { title: "美少女", value: "439" }, { title: "美脚", value: "448" }, { title: "反差婊", value: "546" }, { title: "ktv", value: "373" }, { title: "空姐", value: "88" }, { title: "女上", value: "1775" }, { title: "性感内衣", value: "571" }, { title: "素人自拍", value: "1824" }, { title: "近亲相奸", value: "1351" }, { title: "网红黑料", value: "1065" }, { title: "监控破解", value: "706" }, { title: "热门大瓜", value: "1064" }, { title: "伦理道德", value: "1068" }, { title: "认证大神", value: "415" }, { title: "挑战", value: "419" }, { title: "潮吹", value: "455" }, { title: "趣味挑战", value: "2727" }, { title: "爆款", value: "398" }, { title: "sm", value: "334" }, { title: "交合", value: "310" }, { title: "跳舞", value: "378" }, { title: "免费", value: "1697" }, { title: "国语", value: "71" }, { title: "素人", value: "68" }, { title: "肛交", value: "127" }, { title: "jk", value: "212" }, { title: "清纯", value: "348" }, { title: "群p", value: "342" }, { title: "女同", value: "85" }, { title: "3p", value: "80" }, { title: "中文字幕", value: "101" }, { title: "厕所", value: "374" }, { title: "侦察官", value: "98" }, { title: "贫乳", value: "380" }, { title: "毒龙", value: "118" }, { title: "旗袍", value: "347" }, { title: "河北彩花", value: "1780" }, { title: "日本", value: "1251" }, { title: "打飞机", value: "667" }, { title: "3P", value: "581" }, { title: "群P激战", value: "603" }, { title: "高中生", value: "1050" }, { title: "松本一香", value: "1781" }, { title: "舌吻", value: "664" }, { title: "第一人称", value: "1259" }, { title: "美园和花", value: "1782" }, { title: "按摩技师", value: "660" }, { title: "羞辱", value: "1282" }
-        ] },
-        { name: "tagRefresh", title: "刷新标签", type: "enumeration",
-          enumOptions: [{ title: "使用缓存（快）", value: "0" }, { title: "强制从站点更新", value: "1" }] },
+        { name: "tag", title: "三级·标签", type: "enumeration", dynamicOptions: { functionName: "loadTagOptions" }, enumOptions: [{ title: "全部标签", value: "" }] },
         { name: "page", title: "页码", type: "page" }
       ] },
     { id: "loadResource", title: "播放线路", functionName: "loadResource", type: "stream", params: [] },
@@ -172,240 +151,6 @@ var WidgetMetadata = {
 };
 
 // ===== 全量分类树：一级频道 / 二级板块 / 三级标签（逆向 system/info + navBlock + blockDetail）=====
-var TX_CHANNELS = [
-  { id: "1", name: "精选" },
-  { id: "2", name: "最新" },
-  { id: "4", name: "原创" },
-  { id: "7", name: "网黄" },
-  { id: "8", name: "福利姬" },
-  { id: "20", name: "典藏" },
-  { id: "9", name: "AV" },
-  { id: "21", name: "国产" },
-];
-var TX_BLOCKS = [
-  { id: "1", name: "糖心vlog ❤️ 专注原创100年" },
-  { id: "3", name: "新人驾到—糖心宝藏新人✨" },
-  { id: "5", name: "糖心次元—Coser少女天花板" },
-  { id: "8", name: "糖心福利姬—肤白鲍美水多" },
-  { id: "244", name: "糖心Vloger—发现更多精彩💯" },
-  { id: "238", name: "糖心乱伦—爸爸内射给我" },
-  { id: "21", name: "每晚22:00准时更新  每天都有新发现" },
-  { id: "255", name: "国产精品—天生の精盆肉便器" },
-  { id: "245", name: "东北热—中国人自己的“东京热”" },
-  { id: "6", name: "反差母狗—白天女神 晚上母狗" },
-  { id: "22", name: "国产小视频—越刷越带劲" },
-  { id: "256", name: "黑料情报局—吃瓜第一线" },
-  { id: "187", name: "糖心女郎" },
-  { id: "40", name: "Nanataipei" },
-  { id: "43", name: "饼干姐姐" },
-  { id: "185", name: "西野加奈" },
-  { id: "217", name: "情深叉喔" },
-  { id: "38", name: "菠萝啤beer" },
-  { id: "87", name: "玩偶姐姐—口罩&眼神的“纯欲”鼻祖" },
-  { id: "88", name: "下面有根棒棒糖—你一顶我就叫～" },
-  { id: "89", name: "Apple—淫骚丝袜美少妇" },
-  { id: "90", name: "Yua—小日子的“挖矿”能手" },
-  { id: "91", name: "刘玥—臣服在洋屌之下的清华留子" },
-  { id: "42", name: "柚子猫Yuzukitty—甜蜜心动的二次元女友" },
-  { id: "223", name: "黑猫露娜酱" },
-  { id: "219", name: "菜菜最花" },
-  { id: "220", name: "工藤静香" },
-  { id: "221", name: "蜡笔甜心" },
-  { id: "224", name: "酒酱" },
-  { id: "222", name: "小奈" },
-  { id: "197", name: "逢泽美优" },
-  { id: "132", name: "河北彩花" },
-  { id: "200", name: "松本一香" },
-  { id: "212", name: "濑户环奈" },
-  { id: "213", name: "美园和花" },
-  { id: "214", name: "北冈果林" },
-];
-var TX_TAGS = [
-  { id: "345", name: "女神" },
-  { id: "372", name: "母狗" },
-  { id: "443", name: "反差" },
-  { id: "556", name: "SM" },
-  { id: "89", name: "白虎" },
-  { id: "346", name: "少女" },
-  { id: "456", name: "舞蹈" },
-  { id: "107", name: "巨乳" },
-  { id: "323", name: "黑丝" },
-  { id: "335", name: "女仆" },
-  { id: "437", name: "办公室" },
-  { id: "319", name: "骑乘" },
-  { id: "326", name: "白丝" },
-  { id: "459", name: "淫语" },
-  { id: "475", name: "娇喘" },
-  { id: "105", name: "御姐" },
-  { id: "121", name: "主播" },
-  { id: "312", name: "足交" },
-  { id: "333", name: "少妇" },
-  { id: "354", name: "诱惑" },
-  { id: "352", name: "潮喷" },
-  { id: "451", name: "秘书" },
-  { id: "493", name: "高跟" },
-  { id: "84", name: "制服" },
-  { id: "148", name: "护士" },
-  { id: "330", name: "剧情" },
-  { id: "338", name: "高潮" },
-  { id: "90", name: "萝莉" },
-  { id: "125", name: "颜射" },
-  { id: "442", name: "双马尾" },
-  { id: "155", name: "迷奸" },
-  { id: "313", name: "内射" },
-  { id: "316", name: "深喉" },
-  { id: "76", name: "调教" },
-  { id: "77", name: "痴女" },
-  { id: "343", name: "勾引" },
-  { id: "66", name: "后入" },
-  { id: "91", name: "口爆" },
-  { id: "103", name: "舔鲍" },
-  { id: "381", name: "酒店" },
-  { id: "337", name: "户外" },
-  { id: "550", name: "黑丝美腿" },
-  { id: "72", name: "口交" },
-  { id: "102", name: "人妻" },
-  { id: "467", name: "爆操" },
-  { id: "130", name: "喷水" },
-  { id: "341", name: "极品" },
-  { id: "145", name: "美臀" },
-  { id: "469", name: "美乳" },
-  { id: "444", name: "道具" },
-  { id: "604", name: "OL" },
-  { id: "350", name: "白浆" },
-  { id: "452", name: "百合" },
-  { id: "83", name: "丝袜" },
-  { id: "447", name: "美足" },
-  { id: "81", name: "cosplay1" },
-  { id: "314", name: "中出" },
-  { id: "78", name: "69式" },
-  { id: "170", name: "福利姬" },
-  { id: "87", name: "自慰" },
-  { id: "2696", name: "粉穴" },
-  { id: "473", name: "射精" },
-  { id: "1011", name: "大屌" },
-  { id: "70", name: "无码" },
-  { id: "269", name: "网黄" },
-  { id: "94", name: "学妹" },
-  { id: "305", name: "原创up" },
-  { id: "332", name: "妹妹" },
-  { id: "92", name: "约炮" },
-  { id: "237", name: "原创" },
-  { id: "240", name: "自拍" },
-  { id: "129", name: "情趣" },
-  { id: "355", name: "美女" },
-  { id: "515", name: "乱伦" },
-  { id: "682", name: "中出内射" },
-  { id: "104", name: " 乱伦" },
-  { id: "113", name: "学生" },
-  { id: "324", name: "老师" },
-  { id: "331", name: "按摩" },
-  { id: "464", name: "无套" },
-  { id: "353", name: "闺蜜" },
-  { id: "329", name: "妈妈" },
-  { id: "721", name: "女友" },
-  { id: "1741", name: "第一视角" },
-  { id: "336", name: "偷情" },
-  { id: "557", name: "破处" },
-  { id: "636", name: "粉嫩" },
-  { id: "272", name: "探花" },
-  { id: "619", name: "兄妹乱伦" },
-  { id: "327", name: "姐姐" },
-  { id: "465", name: "美腿" },
-  { id: "548", name: "黑料泄密" },
-  { id: "594", name: "骚货" },
-  { id: "311", name: "乳交" },
-  { id: "99", name: "捆绑" },
-  { id: "661", name: "上位骑乘" },
-  { id: "695", name: "抖音风" },
-  { id: "325", name: "国产" },
-  { id: "439", name: "美少女" },
-  { id: "448", name: "美脚" },
-  { id: "546", name: "反差婊" },
-  { id: "373", name: "ktv" },
-  { id: "88", name: "空姐" },
-  { id: "1775", name: "女上" },
-  { id: "571", name: "性感内衣" },
-  { id: "1824", name: "素人自拍" },
-  { id: "1351", name: "近亲相奸" },
-  { id: "1065", name: "网红黑料" },
-  { id: "706", name: "监控破解" },
-  { id: "1064", name: "热门大瓜" },
-  { id: "1068", name: "伦理道德" },
-  { id: "415", name: "认证大神" },
-  { id: "419", name: "挑战" },
-  { id: "455", name: "潮吹" },
-  { id: "2727", name: "趣味挑战" },
-  { id: "398", name: "爆款" },
-  { id: "334", name: "sm" },
-  { id: "310", name: "交合" },
-  { id: "378", name: "跳舞" },
-  { id: "1697", name: "免费" },
-  { id: "71", name: "国语" },
-  { id: "68", name: "素人" },
-  { id: "127", name: "肛交" },
-  { id: "212", name: "jk" },
-  { id: "348", name: "清纯" },
-  { id: "342", name: "群p" },
-  { id: "85", name: "女同" },
-  { id: "80", name: "3p" },
-  { id: "101", name: "中文字幕" },
-  { id: "374", name: "厕所" },
-  { id: "98", name: "侦察官" },
-  { id: "380", name: "贫乳" },
-  { id: "118", name: "毒龙" },
-  { id: "347", name: "旗袍" },
-  { id: "1780", name: "河北彩花" },
-  { id: "1251", name: "日本" },
-  { id: "667", name: "打飞机" },
-  { id: "581", name: "3P" },
-  { id: "603", name: "群P激战" },
-  { id: "1050", name: "高中生" },
-  { id: "1781", name: "松本一香" },
-  { id: "664", name: "舌吻" },
-  { id: "1259", name: "第一人称" },
-  { id: "1782", name: "美园和花" },
-  { id: "660", name: "按摩技师" },
-  { id: "1282", name: "羞辱" },
-];
-var TX_BLOCK_CHANNEL = {
-  "1": "1",
-  "3": "1",
-  "5": "1",
-  "8": "1",
-  "244": "1",
-  "238": "1",
-  "21": "2",
-  "255": "2",
-  "245": "2",
-  "6": "2",
-  "22": "2",
-  "256": "2",
-  "187": "4",
-  "40": "4",
-  "43": "4",
-  "185": "4",
-  "217": "4",
-  "38": "4",
-  "87": "7",
-  "88": "7",
-  "89": "7",
-  "90": "7",
-  "91": "7",
-  "42": "7",
-  "223": "8",
-  "219": "8",
-  "220": "8",
-  "221": "8",
-  "224": "8",
-  "222": "8",
-  "197": "9",
-  "132": "9",
-  "200": "9",
-  "212": "9",
-  "213": "9",
-  "214": "9",
-};
 var TX_CHANNEL_FILTER = {
   "1": {"tag_id": "1771", "canvas": "long", "position": "normal"},
   "2": {},
@@ -1052,9 +797,18 @@ async function loadHome(params) {
   var section = String(params.section || "");
   var order = String(params.order || "new");
   var sections;
-  if (section && TX_BLOCK_CHANNEL[section] && TX_BLOCK_CHANNEL[section] !== "1") {
-    // 板块属于其它频道：切到该频道取数再按板块 id 过滤。
-    sections = await txChannelSections(TX_BLOCK_CHANNEL[section], order, page, params);
+  if (section) {
+    // 选定板块：走 blockDetail filter + /search/movie 拿完整分页列表。
+    var full = await txSectionItems(section, order, page, params);
+    if (full) {
+      return txUnique(full.filter(txHasImg).map(function (m) { return txItem(m, ""); }));
+    }
+    // filter 不可用时退回首页板块预览。
+    var cmap = await txChannelMap(params);
+    var owner = cmap[section] || "";
+    sections = (owner && owner !== "1")
+      ? await txChannelSections(owner, order, page, params)
+      : await txCached("/movie/navBlock", { id: "1", page: String(page), order: order }, params, 0) || [];
   } else {
     sections = await txCached("/movie/navBlock", { id: "1", page: String(page), order: order }, params, 0) || [];
   }
@@ -1111,12 +865,25 @@ async function loadBlocks(params) {
   var order = params.order || "new";
   var page = Number(params.page) || 1;
 
-  // 若选了二级板块却没选频道，自动按归属表定位其频道；都没选则用首页频道。
-  if (!channel && block && TX_BLOCK_CHANNEL[block]) channel = TX_BLOCK_CHANNEL[block];
+  // 若选了二级板块却没选频道，自动按服务器归属表定位其频道；都没选则用首页频道。
+  if (!channel && block) {
+    var cmap = await txChannelMap(params);
+    if (cmap[block]) channel = cmap[block];
+  }
   if (!channel) channel = "1";
 
   var channels = channel ? [channel] : Object.keys(TX_CHANNEL_FILTER);
   var out = [];
+  if (block && !TX_V3_FILTER[channel]) {
+    var full = await txSectionItems(block, order, page, params);
+    if (full) {
+      for (var fi = 0; fi < full.length; fi++) {
+        if (tag && !txHasTag(full[fi], tag)) continue;
+        if (txHasImg(full[fi])) out.push(txItem(full[fi], ""));
+      }
+      return txUnique(out);
+    }
+  }
   for (var ci = 0; ci < channels.length; ci++) {
     var sections = await txChannelSections(channels[ci], order, page, params);
     for (var s = 0; s < sections.length; s++) {
@@ -1176,20 +943,106 @@ async function loadTag(params) {
   return txUnique(out);
 }
 
-// 动态标签选项：从站点实时聚合全量标签（缓存 6 小时，避免编辑页每次都等 5 秒）。
-// 站点无全量标签接口，需遍历 6 个频道第 1 页，从视频 tags 聚合（实测可得全部 146 个）。
-// 失败自动回退到内置的 TX_TAGS，不影响编辑页使用。
+// 动态标签选项：优先读服务器缓存的标签，失败才尝试站点直抓。
 var TX_TAG_CACHE = "tx_vlog_tags_v1";
 var TX_TAG_TTL = 6 * 3600 * 1000;
+// 从服务器读取预抓取的选项（服务器定时更新，Rex 只读现成结果）。
+async function txServerOptions(kind, channel, params) {
+  var url = TX_RELAY_BASE + "/options?kind=" + encodeURIComponent(kind);
+  if (channel) url += "&channel=" + encodeURIComponent(channel);
+  try {
+    var r = await Widget.http.request({
+      url: url, method: "GET", decodable: true, timeout: 12
+    });
+    var j = (r && r.data && typeof r.data === "object") ? r.data : null;
+    if (!j || j.ok !== true || !Array.isArray(j.items) || !j.items.length) return null;
+    var out = [];
+    for (var i = 0; i < j.items.length; i++) {
+      var it = j.items[i];
+      if (it && typeof it.title === "string" && typeof it.value === "string") {
+        out.push({ title: it.title, value: it.value });
+      }
+    }
+    return out.length ? out : null;
+  } catch (e) {
+    console.log("服务器选项读取失败：" + (e && e.message ? e.message : String(e)));
+    return null;
+  }
+}
+
+// 板块归属表（板块 id -> 频道 id）：完全来自服务器，本地只做短期缓存。
+var TX_CHANNELMAP_CACHE = "tx_vlog_channelmap_v1";
+async function txChannelMap(params) {
+  var cached = null;
+  try { cached = JSON.parse(Widget.storage.get(TX_CHANNELMAP_CACHE) || "null"); } catch (e) {}
+  if (cached && cached.t && Date.now() - cached.t < 6 * 3600 * 1000 && cached.map) return cached.map;
+  var opts = await txServerOptions("channelmap", "", params);
+  if (!opts || !opts.length) return {};
+  var map = {};
+  for (var i = 0; i < opts.length; i++) map[opts[i].value] = opts[i].title;
+  try { Widget.storage.set(TX_CHANNELMAP_CACHE, JSON.stringify({ t: Date.now(), map: map })); } catch (e) {}
+  return map;
+}
+
+// 板块列表筛选参数（来自服务器 blockDetail），值为 JSON 字符串。
+var TX_BLOCKFILTER_CACHE = "tx_vlog_blockfilter_v1";
+async function txBlockFilter(section, params) {
+  var cached = null;
+  try { cached = JSON.parse(Widget.storage.get(TX_BLOCKFILTER_CACHE) || "{}"); } catch (e) { cached = {}; }
+  if (cached[section]) {
+    try { return JSON.parse(cached[section]); } catch (e) {}
+  }
+  var opts = await txServerOptions("blockfilter", section, params);
+  if (!opts || !opts.length) return null;
+  var raw = "";
+  for (var i = 0; i < opts.length; i++) {
+    if (opts[i].value && opts[i].value.charAt(0) === "{") { raw = opts[i].value; break; }
+  }
+  if (!raw) return null;
+  try {
+    var f = JSON.parse(raw);
+    cached[section] = raw;
+    try { Widget.storage.set(TX_BLOCKFILTER_CACHE, JSON.stringify(cached)); } catch (e) {}
+    return f;
+  } catch (e) { return null; }
+}
+
+// 按板块取完整列表：用 blockDetail 的 filter 走 /search/movie（每页 24 条，支持分页）。
+async function txSectionItems(section, order, page, params) {
+  var f = await txBlockFilter(section, params);
+  if (!f) return null;
+  var sd = {};
+  for (var k in f) if (Object.prototype.hasOwnProperty.call(f, k)) sd[k] = f[k];
+  sd.order = TX_V3_ORDER[order] || order || "new";
+  sd.page = String(page);
+  try {
+    var res = await txCached("/search/movie", sd, params, 0);
+    var rows = (res && res.data) || (Array.isArray(res) ? res : []);
+    var list = [];
+    for (var i = 0; i < rows.length; i++) {
+      var m = rows[i];
+      if (m && String(m.type || "") === "ad") continue;
+      list.push(m);
+    }
+    return list;
+  } catch (e) {
+    console.log("板块完整列表读取失败：" + (e && e.message ? e.message : String(e)));
+    return null;
+  }
+}
+
 async function loadTagOptions(params) {
   params = params || {};
-  var fallback = [{ title: "全部标签", value: "" }].concat(
-    TX_TAGS.map(function (t) { return { title: t.name, value: String(t.id) }; }));
-  var force = String(params.tagRefresh || "") === "1";
+  var fallback = [{ title: "全部标签", value: "" }];
   var now = Date.now();
+  var fromServer = await txServerOptions("tags", "", params);
+  if (fromServer && fromServer.length >= 20) {
+    try { Widget.storage.set(TX_TAG_CACHE, JSON.stringify({ t: now, items: fromServer })); } catch (e) {}
+    return fromServer;
+  }
   var cache = null;
   try { cache = JSON.parse(Widget.storage.get(TX_TAG_CACHE) || "null"); } catch (e) {}
-  if (!force && cache && cache.t && now - cache.t < TX_TAG_TTL && cache.items && cache.items.length) {
+  if (cache && cache.t && now - cache.t < TX_TAG_TTL && cache.items && cache.items.length) {
     return cache.items;
   }
   var channels = ["1", "2", "4", "7", "8", "9"]; // 6 频道第 1 页即覆盖全量标签
@@ -1215,17 +1068,16 @@ async function loadTagOptions(params) {
   }
   var ids = Object.keys(tags);
   if (!ids.length) {
-    console.log("动态标签：未能从站点获取，回退内置标签");
+    console.log("动态标签：未能获取，返回空选项");
+    return fallback;
+  }
+  // 站点返回 ≥20 个标签才算成功，完全以站点/服务器为准。
+  if (ids.length < 20) {
+    console.log("动态标签：" + ids.length + " 个过少，返回空选项");
     return fallback;
   }
   var out = [{ title: "全部标签", value: "" }];
   for (var oi = 0; oi < ids.length; oi++) out.push({ title: tags[ids[oi]], value: ids[oi] });
-  // 合并内置标签里站点这次没返回的（保证不丢失历史标签）
-  var seen = {};
-  for (var mi = 0; mi < out.length; mi++) seen[out[mi].value] = 1;
-  for (var fi = 0; fi < fallback.length; fi++) {
-    if (!seen[fallback[fi].value]) { out.push(fallback[fi]); seen[fallback[fi].value] = 1; }
-  }
   try { Widget.storage.set(TX_TAG_CACHE, JSON.stringify({ t: now, items: out })); } catch (e) {}
   return out;
 }
@@ -1235,30 +1087,23 @@ async function loadTagOptions(params) {
 var TX_SECTION_CACHE = "tx_vlog_sections_v1";
 var TX_SECTION_TTL = 6 * 3600 * 1000;
 // video_3 国产频道的筛选项（navFilter.tags），作为板块选项的兜底。
-var TX_V3_TAGS_FALLBACK = [
-  { id: "240", name: "国产自拍" }, { id: "90", name: "巨乳萝莉" }, { id: "372", name: "反差母狗" }, { id: "694", name: "绿帽淫妻" }, { id: "76", name: "轻口调教" }, { id: "87", name: "自慰喷水" }, { id: "452", name: "女同百合" }, { id: "92", name: "约炮嫖娼" }, { id: "155", name: "强奸迷奸" }, { id: "342", name: "多人群P" }, { id: "343", name: "勾引搭讪" }, { id: "577", name: "车震野战" }, { id: "548", name: "黑料泄密" }, { id: "104", name: "全家乱伦" }, { id: "113", name: "清纯学妹" }, { id: "275", name: "偷拍实录" }
-];
 async function loadSectionOptions(params) {
   params = params || {};
   // 每个入口按自己的频道取板块；首页精选没有 channel 参数，默认频道 1。
   var channel = String(params.channel || "1");
   var cacheKey = TX_SECTION_CACHE + "_" + channel;
-  var inChannel = [];
   var v3 = TX_V3_FILTER[channel];
-  if (v3 && channel === "21") {
-    inChannel = TX_V3_TAGS_FALLBACK;
-  } else if (!v3) {
-    for (var bi = 0; bi < TX_BLOCKS.length; bi++) {
-      if (TX_BLOCK_CHANNEL[TX_BLOCKS[bi].id] === channel) inChannel.push(TX_BLOCKS[bi]);
-    }
-  }
-  var fallback = [{ title: "全部板块", value: "" }].concat(
-    inChannel.map(function (b) { return { title: b.name, value: String(b.id) }; }));
-  var force = String(params.sectionRefresh || "") === "1";
+  var fallback = [{ title: "全部板块", value: "" }];
   var now = Date.now();
+  var kind = TX_V3_FILTER[channel] ? "v3tags" : "sections";
+  var fromServer = await txServerOptions(kind, channel, params);
+  if (fromServer && fromServer.length >= (TX_V3_FILTER[channel] ? 3 : 3)) {
+    try { Widget.storage.set(cacheKey, JSON.stringify({ t: now, items: fromServer })); } catch (e) {}
+    return fromServer;
+  }
   var cache = null;
   try { cache = JSON.parse(Widget.storage.get(cacheKey) || "null"); } catch (e) {}
-  if (!force && cache && cache.t && now - cache.t < TX_SECTION_TTL && cache.items && cache.items.length) {
+  if (cache && cache.t && now - cache.t < TX_SECTION_TTL && cache.items && cache.items.length) {
     return cache.items;
   }
   var names = {};
@@ -1292,18 +1137,14 @@ async function loadSectionOptions(params) {
     }
   }
   var ids = Object.keys(names);
-  var out = [{ title: "全部板块", value: "" }];
-  for (var oi = 0; oi < ids.length; oi++) out.push({ title: names[ids[oi]], value: ids[oi] });
-  // 合并内置板块里这次没返回的，保证选项不减少。
-  var seen = {};
-  for (var si = 0; si < out.length; si++) seen[out[si].value] = 1;
-  for (var fi = 0; fi < fallback.length; fi++) {
-    if (!seen[fallback[fi].value]) { out.push(fallback[fi]); seen[fallback[fi].value] = 1; }
-  }
-  if (out.length <= 1) {
-    console.log("板块动态获取全部失败，回退频道内置板块");
+  // 站点返回 ≥2 个板块才算成功，完全以站点为准（新增能进、下架会消失）。
+  // 写死的板块只在站点不可用时兜底，不再污染实时结果。
+  if (ids.length < 2) {
+    console.log("板块动态获取：" + ids.length + " 个过少，返回空选项");
     return fallback;
   }
+  var out = [{ title: "全部板块", value: "" }];
+  for (var oi = 0; oi < ids.length; oi++) out.push({ title: names[ids[oi]], value: ids[oi] });
   try { Widget.storage.set(cacheKey, JSON.stringify({ t: now, items: out })); } catch (e) {}
   return out;
 }
