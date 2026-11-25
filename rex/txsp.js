@@ -2,9 +2,9 @@
 var WidgetMetadata = {
   id: "com.rex.txxkl7s60j",
   title: "糖心Vlog",
-  version: "1.1.1",
+  version: "1.1.2",
   requiredVersion: "0.0.1",
-  description: "糖心Vlog 一级频道独立入口+全量三级分类（8频道/36板块/146标签）、搜索、详情、Worker 播放、弹幕、封面代理",
+  description: "糖心Vlog",
   author: "Rex Module",
   site: "https://txxkl7s60j.com",
   contentType: "video",
@@ -962,6 +962,11 @@ async function txCached(path, data, params, ttl, playback) {
     throw e;
   }
 }
+// 无封面的条目（广告/小方块/占位）一律不进列表，避免首页前面出现空白卡。
+function txHasImg(m) {
+  return !!(m && (m.img || m.cover || m.poster || m.backdrop));
+}
+
 function txItem(m, sectionName) {
   var id = String(m.id || "");
   var people = [];
@@ -973,10 +978,14 @@ function txItem(m, sectionName) {
   var genres = [];
   var tags = m.tags || [];
   for (var j = 0; j < tags.length; j++) genres.push({ id: String(tags[j].id || ""), title: tags[j].name || "" });
+  // 标题兜底：视频用 name；缺 name 时退回作者昵称，绝不把板块名当标题。
+  var authorName = (m.user_id && m.user_id[0] && (m.user_id[0].nickname || m.user_id[0].username))
+    || m.nickname || m.username || "";
   var item = {
     id: id, type: "url", link: "tx:" + id,
-    title: m.name || "",
-    subtitle: sectionName || m.cat_name || (m.user_id && m.user_id[0] ? m.user_id[0].nickname : "") || "",
+    title: m.name || authorName || "未命名",
+    // 副标题优先用作者名（视频卡）；板块名只作为无作者时的兜底。
+    subtitle: authorName || m.cat_name || sectionName || "",
     posterPath: txImg(m.img || ""),
     coverUrl: txImg(m.img || ""),
     backdropPath: txImg(m.img || ""),
@@ -1008,7 +1017,7 @@ async function loadHome(params) {
     var s = sections[i];
     if (String(s.id) === "-1" || String(s.id) === "-3") continue;
     var items = s.items || [];
-    for (var j = 0; j < items.length; j++) out.push(txItem(items[j], s.name));
+    for (var j = 0; j < items.length; j++) if (txHasImg(items[j])) out.push(txItem(items[j], s.name));
   }
   return txUnique(out);
 }
@@ -1051,6 +1060,7 @@ async function loadBlocks(params) {
         var m = items[j];
         // 三级标签筛选：按 tag id 精确匹配
         if (tag && !txHasTag(m, tag)) continue;
+        if (!txHasImg(m)) continue;
         out.push(txItem(m, sec.name));
       }
     }
@@ -1086,7 +1096,7 @@ async function loadTag(params) {
       if (sid === "-1" || sid === "-3") continue;
       var items = sec.items || [];
       for (var j = 0; j < items.length; j++) {
-        if (txHasTag(items[j], tag)) out.push(txItem(items[j], sec.name));
+        if (txHasImg(items[j]) && txHasTag(items[j], tag)) out.push(txItem(items[j], sec.name));
       }
     }
   }
