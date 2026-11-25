@@ -2,9 +2,9 @@
 var WidgetMetadata = {
   id: "com.rex.txxkl7s60j",
   title: "糖心Vlog",
-  version: "1.0.6",
+  version: "1.0.7",
   requiredVersion: "0.0.1",
-  description: "糖心Vlog 首页精选、分区频道、标签筛选、搜索、详情、Worker 完整播放线路与弹幕",
+  description: "糖心Vlog 首页精选、分区频道、标签筛选、搜索、详情、Worker 播放线路与弹幕（限频熔断+封面代理）",
   author: "Rex Module",
   site: "https://txxkl7s60j.com",
   contentType: "video",
@@ -515,25 +515,27 @@ async function txRaw(path, data, token, st, viaWorker, bodyMode) {
   var dec = aesDecrypt(txKey(reqId), enc.subarray(0, 16), enc.subarray(16));
   return JSON.parse(fromUTF8(gunzip(dec)));
 }
+function txIsRateLimit(err) {
+  var msg = err && err.message ? err.message : String(err || "");
+  return /频繁|稍后再试|429|rate.?limit|too many|too frequent/i.test(msg);
+}
 async function txRawWithBodyFallback(path, data, token, st, viaWorker) {
-  var last = null;
-  for (var mode = 0; mode < 2; mode++) {
-    try {
-      var r = await txRaw(path, data, token, st, viaWorker, mode);
-      // 宿主若把 Uint8Array 序列化成对象，上游会回「安全性错误D」，
-      // 这种响应视为请求体编码失败，继续用 base64 字符串重试。
-      if (mode === 0 && r && r.status !== "y" && String(r.error || "").indexOf("安全性错误") >= 0) {
-        last = new Error("糖心接口：" + r.error);
-        console.log("宿主未按二进制发送请求体，改用 base64 请求体重试");
-        continue;
-      }
-      return r;
-    } catch (e) {
-      last = e;
-      if (mode === 0) console.log("二进制请求体发送失败，改用 base64 请求体重试", e && e.message ? e.message : String(e));
+  // 经中转代理时请求体统一是 base64，二进制/base64 重试没有意义，只会
+  // 把一个限频请求放大成多次。这里只发一次；若命中限频立刻熔断不再重试。
+  try {
+    var r = await txRaw(path, data, token, st, viaWorker, 0);
+    if (r && r.status !== "y" && String(r.error || "").indexOf("安全性错误") >= 0) {
+      throw new Error("糖心接口：" + r.error);
     }
+    return r;
+  } catch (e) {
+    if (txIsRateLimit(e)) {
+      var err = new Error("请求过于频繁，请稍后再试");
+      err.rateLimited = true;
+      throw err;
+    }
+    throw e;
   }
-  throw last || new Error("糖心请求失败");
 }
 function txTokenWithUser(token, userId) {
   token = String(token || "");
@@ -558,6 +560,7 @@ async function txApi(path, data, params, playback) {
       var r = null;
       try { r = await txRawWithBodyFallback(path, data, token, st, plans[pi]); }
       catch (e) {
+        if (e && e.rateLimited) throw e; // 限频立刻熔断，不换通路、不重试
         lastError = new Error("糖心请求失败：" + (e && e.message ? e.message : String(e)));
         console.log((plans[pi] ? "Worker" : "直连") + "请求失败，继续尝试其它通路", lastError.message);
         continue;
@@ -576,7 +579,10 @@ async function txApi(path, data, params, playback) {
       };
       var lr = null;
       try { lr = await txRawWithBodyFallback("/login/device", loginData, "", st, false); }
-      catch (e) { throw new Error("游客登录失败：" + (e && e.message ? e.message : String(e))); }
+      catch (e) {
+        if (e && e.rateLimited) throw e;
+        throw new Error("游客登录失败：" + (e && e.message ? e.message : String(e)));
+      }
       if (lr && lr.status === "y" && lr.data && lr.data.token) {
         st.token = txTokenWithUser(lr.data.token, lr.data.user_id);
         txSave(st);
@@ -596,17 +602,26 @@ async function txCached(path, data, params, ttl, playback) {
   try { cache = JSON.parse(Widget.storage.get(TX_CACHE) || "{}") || {}; } catch (e) { cache = {}; }
   var key = txCacheKey(path, data, params, playback), now = Date.now(), hit = cache[key];
   if (hit && hit.t && now - hit.t < ttl && hit.v !== undefined) return hit.v;
-  var v = await txApi(path, data, params || {}, playback);
   try {
-    cache[key] = { t: now, v: v };
-    var keys = Object.keys(cache);
-    if (keys.length > 80) {
-      keys.sort(function (a, b) { return (cache[a].t || 0) - (cache[b].t || 0); });
-      for (var i = 0; i < keys.length - 60; i++) delete cache[keys[i]];
+    var v = await txApi(path, data, params || {}, playback);
+    try {
+      cache[key] = { t: now, v: v };
+      var keys = Object.keys(cache);
+      if (keys.length > 80) {
+        keys.sort(function (a, b) { return (cache[a].t || 0) - (cache[b].t || 0); });
+        for (var i = 0; i < keys.length - 60; i++) delete cache[keys[i]];
+      }
+      Widget.storage.set(TX_CACHE, JSON.stringify(cache));
+    } catch (e) { console.log("缓存写入失败", e); }
+    return v;
+  } catch (e) {
+    // 请求失败（尤其限频）时，若有历史缓存则回退展示，避免列表/封面白屏。
+    if (hit && hit.v !== undefined) {
+      console.log("请求失败，使用缓存兜底展示（" + (e && e.message ? e.message : String(e)) + "）");
+      return hit.v;
     }
-    Widget.storage.set(TX_CACHE, JSON.stringify(cache));
-  } catch (e) { console.log("缓存写入失败", e); }
-  return v;
+    throw e;
+  }
 }
 function txItem(m, sectionName) {
   var id = String(m.id || "");
@@ -646,7 +661,7 @@ function txUnique(items) {
 async function loadHome(params) {
   params = params || {};
   var page = Number(params.page) || 1;
-  var d = await txCached("/movie/navBlock", { id: "1", page: String(page) }, params, 120000);
+  var d = await txCached("/movie/navBlock", { id: "1", page: String(page) }, params, 600000);
   var sections = d || [], out = [];
   for (var i = 0; i < sections.length; i++) {
     var s = sections[i];
@@ -679,7 +694,7 @@ async function loadBlocks(params) {
   data.page = String(page);
   var sections = [];
   if (!homeOnly) {
-    try { sections = await txCached("/movie/navBlock", data, params, 120000) || []; }
+    try { sections = await txCached("/movie/navBlock", data, params, 600000) || []; }
     catch (e) { console.log("分区直取失败，改从首页分区中筛选", e && e.message ? e.message : String(e)); }
   }
   var findSection = function (rows) {
@@ -690,7 +705,7 @@ async function loadBlocks(params) {
   if (!chosen) {
     // 部分分区不能用自身 id 直接请求 navBlock，只能从首页分区里挑同名板块。
     try {
-      var homeSections = await txCached("/movie/navBlock", { id: "1", page: String(page) }, params, 120000) || [];
+      var homeSections = await txCached("/movie/navBlock", { id: "1", page: String(page) }, params, 600000) || [];
       chosen = findSection(homeSections);
       sections = chosen ? [chosen] : homeSections;
     } catch (e) { console.log("首页分区回退失败", e && e.message ? e.message : String(e)); }
@@ -709,7 +724,7 @@ async function loadTag(params) {
   var kw = String(params.tag || "").trim().toLowerCase();
   if (!kw) return [];
   var page = Number(params.page) || 1;
-  var sections = await txCached("/movie/navBlock", { id: "1", page: String(page) }, params, 120000) || [];
+  var sections = await txCached("/movie/navBlock", { id: "1", page: String(page) }, params, 600000) || [];
   var out = [];
   for (var i = 0; i < sections.length; i++) {
     var s = sections[i];
@@ -730,14 +745,14 @@ async function search(params) {
   var page = Number(params.page) || 1;
   if (params.token) {
     try {
-      var d = await txCached("/search/movie", { keyword: kw, page: String(page), page_size: "20", position: "search" }, params, 120000);
+      var d = await txCached("/search/movie", { keyword: kw, page: String(page), page_size: "20", position: "search" }, params, 600000);
       var rows = Array.isArray(d) ? d : ((d && d.data) || []);
       if (rows.length) return txUnique(rows.map(function (m) { return txItem(m, "搜索"); }));
     } catch (e) { console.log("在线搜索不可用，改用本地筛选", e); }
   }
   var out = [];
   for (var p = 1; p <= 2; p++) {
-    var sections = await txCached("/movie/navBlock", { id: "1", page: String(p) }, params, 120000) || [];
+    var sections = await txCached("/movie/navBlock", { id: "1", page: String(p) }, params, 600000) || [];
     for (var i = 0; i < sections.length; i++) {
       var s = sections[i];
       if (String(s.id) === "-1" || String(s.id) === "-3") continue;
