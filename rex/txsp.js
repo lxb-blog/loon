@@ -2,19 +2,20 @@
 var WidgetMetadata = {
   id: "com.rex.txxkl7s60j",
   title: "糖心Vlog",
-  version: "1.1.3",
+  version: "1.2.0",
   requiredVersion: "0.0.1",
-  description: "糖心Vlog 一级频道独立入口+全量三级分类（8频道/36板块/146标签）、搜索、详情、Worker 播放、弹幕、封面过滤",
+  description: "糖心Vlog 一级频道独立入口+全量三级分类（8频道/36板块/146标签）、搜索、详情、Worker 播放、弹幕、封面过滤；下拉刷新实时拉最新（列表/详情零缓存，保留失败兜底）",
   author: "Rex Module",
   site: "https://txxkl7s60j.com",
   contentType: "video",
+  detailCacheDuration: 0,
   globalParams: [
     { name: "token", title: "站点 Token（可选，留空自动游客登录）", type: "input" }
   ],
   modules: [
-    { id: "home", title: "首页精选", functionName: "loadHome",
+    { id: "home", title: "首页精选", functionName: "loadHome", cacheDuration: 0,
       params: [{ name: "page", title: "页码", type: "page" }] },
-    { id: "ch1", title: "频道 · 精选", functionName: "loadBlocks",
+    { id: "ch1", title: "频道 · 精选", functionName: "loadBlocks", cacheDuration: 0,
       params: [
         { name: "channel", title: "频道", type: "constant", value: "1" },
         { name: "order", title: "排序", type: "enumeration", enumOptions: [
@@ -25,7 +26,7 @@ var WidgetMetadata = {
           ] },
         { name: "page", title: "页码", type: "page" }
       ] },
-    { id: "ch2", title: "频道 · 最新", functionName: "loadBlocks",
+    { id: "ch2", title: "频道 · 最新", functionName: "loadBlocks", cacheDuration: 0,
       params: [
         { name: "channel", title: "频道", type: "constant", value: "2" },
         { name: "order", title: "排序", type: "enumeration", enumOptions: [
@@ -36,7 +37,7 @@ var WidgetMetadata = {
           ] },
         { name: "page", title: "页码", type: "page" }
       ] },
-    { id: "ch4", title: "频道 · 原创", functionName: "loadBlocks",
+    { id: "ch4", title: "频道 · 原创", functionName: "loadBlocks", cacheDuration: 0,
       params: [
         { name: "channel", title: "频道", type: "constant", value: "4" },
         { name: "order", title: "排序", type: "enumeration", enumOptions: [
@@ -47,7 +48,7 @@ var WidgetMetadata = {
           ] },
         { name: "page", title: "页码", type: "page" }
       ] },
-    { id: "ch7", title: "频道 · 网黄", functionName: "loadBlocks",
+    { id: "ch7", title: "频道 · 网黄", functionName: "loadBlocks", cacheDuration: 0,
       params: [
         { name: "channel", title: "频道", type: "constant", value: "7" },
         { name: "order", title: "排序", type: "enumeration", enumOptions: [
@@ -58,7 +59,7 @@ var WidgetMetadata = {
           ] },
         { name: "page", title: "页码", type: "page" }
       ] },
-    { id: "ch8", title: "频道 · 福利姬", functionName: "loadBlocks",
+    { id: "ch8", title: "频道 · 福利姬", functionName: "loadBlocks", cacheDuration: 0,
       params: [
         { name: "channel", title: "频道", type: "constant", value: "8" },
         { name: "order", title: "排序", type: "enumeration", enumOptions: [
@@ -69,7 +70,7 @@ var WidgetMetadata = {
           ] },
         { name: "page", title: "页码", type: "page" }
       ] },
-    { id: "ch20", title: "频道 · 典藏", functionName: "loadBlocks",
+    { id: "ch20", title: "频道 · 典藏", functionName: "loadBlocks", cacheDuration: 0,
       params: [
         { name: "channel", title: "频道", type: "constant", value: "20" },
         { name: "order", title: "排序", type: "enumeration", enumOptions: [
@@ -80,7 +81,7 @@ var WidgetMetadata = {
           ] },
         { name: "page", title: "页码", type: "page" }
       ] },
-    { id: "ch9", title: "频道 · AV", functionName: "loadBlocks",
+    { id: "ch9", title: "频道 · AV", functionName: "loadBlocks", cacheDuration: 0,
       params: [
         { name: "channel", title: "频道", type: "constant", value: "9" },
         { name: "order", title: "排序", type: "enumeration", enumOptions: [
@@ -91,7 +92,7 @@ var WidgetMetadata = {
           ] },
         { name: "page", title: "页码", type: "page" }
       ] },
-    { id: "ch21", title: "频道 · 国产", functionName: "loadBlocks",
+    { id: "ch21", title: "频道 · 国产", functionName: "loadBlocks", cacheDuration: 0,
       params: [
         { name: "channel", title: "频道", type: "constant", value: "21" },
         { name: "order", title: "排序", type: "enumeration", enumOptions: [
@@ -102,7 +103,7 @@ var WidgetMetadata = {
           ] },
         { name: "page", title: "页码", type: "page" }
       ] },
-    { id: "block", title: "分区频道（全量三级）", functionName: "loadBlocks",
+    { id: "block", title: "分区频道（全量三级）", functionName: "loadBlocks", cacheDuration: 0,
       params: [
         { name: "channel", title: "一级·频道", type: "enumeration", enumOptions: [
           { title: "精选（默认）", value: "1" }, { title: "全部频道※较慢", value: "" }, { title: "最新", value: "2" }, { title: "原创", value: "4" }, { title: "网黄", value: "7" }, { title: "福利姬", value: "8" }, { title: "典藏", value: "20" }, { title: "AV", value: "9" }, { title: "国产", value: "21" }
@@ -123,7 +124,7 @@ var WidgetMetadata = {
         ] },
         { name: "page", title: "页码", type: "page" }
       ] },
-    { id: "tag", title: "标签筛选（146 个标签）", functionName: "loadTag",
+    { id: "tag", title: "标签筛选（146 个标签）", functionName: "loadTag", cacheDuration: 0,
       params: [
         { name: "tag", title: "三级·标签", type: "enumeration", enumOptions: [
           { title: "全部标签", value: "" },
@@ -137,7 +138,7 @@ var WidgetMetadata = {
     { id: "getDetail", title: "弹幕分集", functionName: "getDetail", type: "danmu", params: [] },
     { id: "getComments", title: "弹幕列表", functionName: "getComments", type: "danmu", params: [] }
   ],
-  search: { id: "search", title: "搜索", functionName: "search",
+  search: { id: "search", title: "搜索", functionName: "search", cacheDuration: 0,
     params: [{ name: "page", title: "页码", type: "page" }] }
 };
 
@@ -1010,7 +1011,7 @@ function txUnique(items) {
 async function loadHome(params) {
   params = params || {};
   var page = Number(params.page) || 1;
-  var d = await txCached("/movie/navBlock", { id: "1", page: String(page) }, params, 600000);
+  var d = await txCached("/movie/navBlock", { id: "1", page: String(page) }, params, 0);
   var sections = d || [], out = [];
   for (var i = 0; i < sections.length; i++) {
     var s = sections[i];
@@ -1028,7 +1029,7 @@ async function txChannelSections(channelId, order, page, params) {
   for (var k in base) if (Object.prototype.hasOwnProperty.call(base, k)) data[k] = base[k];
   // order 由 blockDetail 的 filters 决定；这里直接用合法值，避免多次请求。
   data.order = order || "new";
-  try { return await txCached("/movie/navBlock", data, params, 600000) || []; }
+  try { return await txCached("/movie/navBlock", data, params, 0) || []; }
   catch (e) { console.log("频道 " + channelId + " 读取失败", e && e.message ? e.message : String(e)); return []; }
 }
 
@@ -1109,14 +1110,14 @@ async function search(params) {
   var page = Number(params.page) || 1;
   if (params.token) {
     try {
-      var d = await txCached("/search/movie", { keyword: kw, page: String(page), page_size: "20", position: "search" }, params, 600000);
+      var d = await txCached("/search/movie", { keyword: kw, page: String(page), page_size: "20", position: "search" }, params, 0);
       var rows = Array.isArray(d) ? d : ((d && d.data) || []);
       if (rows.length) return txUnique(rows.map(function (m) { return txItem(m, "搜索"); }));
     } catch (e) { console.log("在线搜索不可用，改用本地筛选", e); }
   }
   var out = [];
   for (var p = 1; p <= 2; p++) {
-    var sections = await txCached("/movie/navBlock", { id: "1", page: String(p) }, params, 600000) || [];
+    var sections = await txCached("/movie/navBlock", { id: "1", page: String(p) }, params, 0) || [];
     for (var i = 0; i < sections.length; i++) {
       var s = sections[i];
       if (String(s.id) === "-1" || String(s.id) === "-3") continue;
@@ -1133,7 +1134,7 @@ async function loadDetail(link) {
   var id = String(link || "").replace(/^tx:/, "");
   // 详情页只取元数据，不请求播放解析 Worker，也不下发直连试看链接。
   // 用户真正点击播放时 Rex 会调用 loadResource，那里才走 Worker 拿播放线路。
-  var m = await txCached("/movie/detail", { id: id }, {}, 600000, false);
+  var m = await txCached("/movie/detail", { id: id }, {}, 0, false);
   var people = [], actors = m.actors || m.user_id || [];
   for (var i = 0; i < actors.length; i++) {
     people.push({ id: String(actors[i].id || ""), title: actors[i].nickname || actors[i].username || "",
