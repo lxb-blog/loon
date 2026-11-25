@@ -2,9 +2,9 @@
 var WidgetMetadata = {
   id: "com.rex.txxkl7s60j",
   title: "糖心Vlog",
-  version: "1.2.0",
+  version: "1.2.2",
   requiredVersion: "0.0.1",
-  description: "糖心Vlog 一级频道独立入口+全量三级分类（8频道/36板块/146标签）、搜索、详情、Worker 播放、弹幕、封面过滤；下拉刷新实时拉最新（列表/详情零缓存，保留失败兜底）",
+  description: "糖心Vlog 一级频道独立入口+标签筛选+搜索+详情+Worker 播放+弹幕+封面过滤；下拉刷新实时拉最新；修复典藏/国产(video_3)频道内容为空；已移除分区频道(全量三级)入口",
   author: "Rex Module",
   site: "https://txxkl7s60j.com",
   contentType: "video",
@@ -101,27 +101,6 @@ var WidgetMetadata = {
             { title: "最多观看", value: "click" },
             { title: "最多收藏", value: "favorite" }
           ] },
-        { name: "page", title: "页码", type: "page" }
-      ] },
-    { id: "block", title: "分区频道（全量三级）", functionName: "loadBlocks", cacheDuration: 0,
-      params: [
-        { name: "channel", title: "一级·频道", type: "enumeration", enumOptions: [
-          { title: "精选（默认）", value: "1" }, { title: "全部频道※较慢", value: "" }, { title: "最新", value: "2" }, { title: "原创", value: "4" }, { title: "网黄", value: "7" }, { title: "福利姬", value: "8" }, { title: "典藏", value: "20" }, { title: "AV", value: "9" }, { title: "国产", value: "21" }
-        ] },
-        { name: "block", title: "二级·板块", type: "enumeration", enumOptions: [
-          { title: "全部板块", value: "" },
-          { title: "糖心vlog ❤️ 专注原创100年（精选）", value: "1" }, { title: "新人驾到—糖心宝藏新人✨（精选）", value: "3" }, { title: "糖心次元—Coser少女天花板（精选）", value: "5" }, { title: "糖心福利姬—肤白鲍美水多（精选）", value: "8" }, { title: "糖心Vloger—发现更多精彩💯（精选）", value: "244" }, { title: "糖心乱伦—爸爸内射给我（精选）", value: "238" }, { title: "每晚22:00准时更新  每天都有新发现（最新）", value: "21" }, { title: "国产精品—天生の精盆肉便器（最新）", value: "255" }, { title: "东北热—中国人自己的“东京热”（最新）", value: "245" }, { title: "反差母狗—白天女神 晚上母狗（最新）", value: "6" }, { title: "国产小视频—越刷越带劲（最新）", value: "22" }, { title: "黑料情报局—吃瓜第一线（最新）", value: "256" }, { title: "糖心女郎（原创）", value: "187" }, { title: "Nanataipei（原创）", value: "40" }, { title: "饼干姐姐（原创）", value: "43" }, { title: "西野加奈（原创）", value: "185" }, { title: "情深叉喔（原创）", value: "217" }, { title: "菠萝啤beer（原创）", value: "38" }, { title: "玩偶姐姐—口罩&眼神的“纯欲”鼻祖（网黄）", value: "87" }, { title: "下面有根棒棒糖—你一顶我就叫～（网黄）", value: "88" }, { title: "Apple—淫骚丝袜美少妇（网黄）", value: "89" }, { title: "Yua—小日子的“挖矿”能手（网黄）", value: "90" }, { title: "刘玥—臣服在洋屌之下的清华留子（网黄）", value: "91" }, { title: "柚子猫Yuzukitty—甜蜜心动的二次元女友（网黄）", value: "42" }, { title: "黑猫露娜酱（福利姬）", value: "223" }, { title: "菜菜最花（福利姬）", value: "219" }, { title: "工藤静香（福利姬）", value: "220" }, { title: "蜡笔甜心（福利姬）", value: "221" }, { title: "酒酱（福利姬）", value: "224" }, { title: "小奈（福利姬）", value: "222" }, { title: "逢泽美优（AV）", value: "197" }, { title: "河北彩花（AV）", value: "132" }, { title: "松本一香（AV）", value: "200" }, { title: "濑户环奈（AV）", value: "212" }, { title: "美园和花（AV）", value: "213" }, { title: "北冈果林（AV）", value: "214" }
-        ] },
-        { name: "tag", title: "三级·标签", type: "enumeration", enumOptions: [
-          { title: "全部标签", value: "" },
-          { title: "女神", value: "345" }, { title: "母狗", value: "372" }, { title: "反差", value: "443" }, { title: "SM", value: "556" }, { title: "白虎", value: "89" }, { title: "少女", value: "346" }, { title: "舞蹈", value: "456" }, { title: "巨乳", value: "107" }, { title: "黑丝", value: "323" }, { title: "女仆", value: "335" }, { title: "办公室", value: "437" }, { title: "骑乘", value: "319" }, { title: "白丝", value: "326" }, { title: "淫语", value: "459" }, { title: "娇喘", value: "475" }, { title: "御姐", value: "105" }, { title: "主播", value: "121" }, { title: "足交", value: "312" }, { title: "少妇", value: "333" }, { title: "诱惑", value: "354" }, { title: "潮喷", value: "352" }, { title: "秘书", value: "451" }, { title: "高跟", value: "493" }, { title: "制服", value: "84" }, { title: "护士", value: "148" }, { title: "剧情", value: "330" }, { title: "高潮", value: "338" }, { title: "萝莉", value: "90" }, { title: "颜射", value: "125" }, { title: "双马尾", value: "442" }, { title: "迷奸", value: "155" }, { title: "内射", value: "313" }, { title: "深喉", value: "316" }, { title: "调教", value: "76" }, { title: "痴女", value: "77" }, { title: "勾引", value: "343" }, { title: "后入", value: "66" }, { title: "口爆", value: "91" }, { title: "舔鲍", value: "103" }, { title: "酒店", value: "381" }, { title: "户外", value: "337" }, { title: "黑丝美腿", value: "550" }, { title: "口交", value: "72" }, { title: "人妻", value: "102" }, { title: "爆操", value: "467" }, { title: "喷水", value: "130" }, { title: "极品", value: "341" }, { title: "美臀", value: "145" }, { title: "美乳", value: "469" }, { title: "道具", value: "444" }, { title: "OL", value: "604" }, { title: "白浆", value: "350" }, { title: "百合", value: "452" }, { title: "丝袜", value: "83" }, { title: "美足", value: "447" }, { title: "cosplay1", value: "81" }, { title: "中出", value: "314" }, { title: "69式", value: "78" }, { title: "福利姬", value: "170" }, { title: "自慰", value: "87" }, { title: "粉穴", value: "2696" }, { title: "射精", value: "473" }, { title: "大屌", value: "1011" }, { title: "无码", value: "70" }, { title: "网黄", value: "269" }, { title: "学妹", value: "94" }, { title: "原创up", value: "305" }, { title: "妹妹", value: "332" }, { title: "约炮", value: "92" }, { title: "原创", value: "237" }, { title: "自拍", value: "240" }, { title: "情趣", value: "129" }, { title: "美女", value: "355" }, { title: "乱伦", value: "515" }, { title: "中出内射", value: "682" }, { title: " 乱伦", value: "104" }, { title: "学生", value: "113" }, { title: "老师", value: "324" }, { title: "按摩", value: "331" }, { title: "无套", value: "464" }, { title: "闺蜜", value: "353" }, { title: "妈妈", value: "329" }, { title: "女友", value: "721" }, { title: "第一视角", value: "1741" }, { title: "偷情", value: "336" }, { title: "破处", value: "557" }, { title: "粉嫩", value: "636" }, { title: "探花", value: "272" }, { title: "兄妹乱伦", value: "619" }, { title: "姐姐", value: "327" }, { title: "美腿", value: "465" }, { title: "黑料泄密", value: "548" }, { title: "骚货", value: "594" }, { title: "乳交", value: "311" }, { title: "捆绑", value: "99" }, { title: "上位骑乘", value: "661" }, { title: "抖音风", value: "695" }, { title: "国产", value: "325" }, { title: "美少女", value: "439" }, { title: "美脚", value: "448" }, { title: "反差婊", value: "546" }, { title: "ktv", value: "373" }, { title: "空姐", value: "88" }, { title: "女上", value: "1775" }, { title: "性感内衣", value: "571" }, { title: "素人自拍", value: "1824" }, { title: "近亲相奸", value: "1351" }, { title: "网红黑料", value: "1065" }, { title: "监控破解", value: "706" }, { title: "热门大瓜", value: "1064" }, { title: "伦理道德", value: "1068" }, { title: "认证大神", value: "415" }, { title: "挑战", value: "419" }, { title: "潮吹", value: "455" }, { title: "趣味挑战", value: "2727" }, { title: "爆款", value: "398" }, { title: "sm", value: "334" }, { title: "交合", value: "310" }, { title: "跳舞", value: "378" }, { title: "免费", value: "1697" }, { title: "国语", value: "71" }, { title: "素人", value: "68" }, { title: "肛交", value: "127" }, { title: "jk", value: "212" }, { title: "清纯", value: "348" }, { title: "群p", value: "342" }, { title: "女同", value: "85" }, { title: "3p", value: "80" }, { title: "中文字幕", value: "101" }, { title: "厕所", value: "374" }, { title: "侦察官", value: "98" }, { title: "贫乳", value: "380" }, { title: "毒龙", value: "118" }, { title: "旗袍", value: "347" }, { title: "河北彩花", value: "1780" }, { title: "日本", value: "1251" }, { title: "打飞机", value: "667" }, { title: "3P", value: "581" }, { title: "群P激战", value: "603" }, { title: "高中生", value: "1050" }, { title: "松本一香", value: "1781" }, { title: "舌吻", value: "664" }, { title: "第一人称", value: "1259" }, { title: "美园和花", value: "1782" }, { title: "按摩技师", value: "660" }, { title: "羞辱", value: "1282" }
-        ] },
-        { name: "order", title: "排序", type: "enumeration", enumOptions: [
-          { title: "最新", value: "new" },
-          { title: "热度最高", value: "hot" },
-          { title: "最多观看", value: "click" },
-          { title: "最多收藏", value: "favorite" }
-        ] },
         { name: "page", title: "页码", type: "page" }
       ] },
     { id: "tag", title: "标签筛选（146 个标签）", functionName: "loadTag", cacheDuration: 0,
@@ -387,6 +366,15 @@ var TX_CHANNEL_FILTER = {
   "9": {"tag_id": "1711", "position": "normal"},
   "21": {"cat_id": "138,139,141,163", "canvas": "long", "position": "normal"},
 };
+// video_3 频道（典藏/国产）：navBlock 只返回广告，真实列表须走 /search/movie + 下列 filter。
+// filter 来自 /movie/navFilter，order 请用 "new"（让 App 按最新排序）；其余排序映射见 TX_V3_ORDER。
+var TX_V3_FILTER = {
+  "20": { canvas: "long", tag_id: "1707,1722,1770", ad_code: "app_data_list", position: "normal" },
+  "21": { canvas: "long", cat_id: "56,160",
+    tag_id: "75,76,85,87,104,107,113,133,155,177,240,272,275,337,342,343,372,421,452,546,548,577,603,694,1065",
+    ad_code: "app_data_list", position: "normal" }
+};
+var TX_V3_ORDER = { "new": "new", "hot": "hot", "click": "click", "favorite": "favorite_rate" };
 
 // 纯 JS 加密/压缩工具，供 Rex 模块内嵌使用（无 require、无 WebCrypto）
 const SBOX=[
@@ -1024,6 +1012,29 @@ async function loadHome(params) {
 
 // 取某频道的板块列表：带该频道默认筛选参数 + 排序，命中缓存优先。
 async function txChannelSections(channelId, order, page, params) {
+  // video_3 频道（典藏20/国产21）：navBlock 只有广告，列表须走 /search/movie。
+  var v3 = TX_V3_FILTER[channelId];
+  if (v3) {
+    var sd = {};
+    for (var vk in v3) if (Object.prototype.hasOwnProperty.call(v3, vk)) sd[vk] = v3[vk];
+    sd.order = TX_V3_ORDER[order || "new"] || "new";
+    sd.page = String(page);
+    try {
+      var res = await txCached("/search/movie", sd, params, 0);
+      var rows = (res && res.data) || (Array.isArray(res) ? res : []);
+      var list = [];
+      for (var ri = 0; ri < rows.length; ri++) {
+        var rm = rows[ri];
+        if (rm && String(rm.type || "") === "ad") continue; // 去掉广告位
+        list.push(rm);
+      }
+      // 包成板块结构，复用后续 section/item 处理逻辑。
+      return [{ id: channelId, name: "", style: "4", items: list }];
+    } catch (e) {
+      console.log("video_3 频道 " + channelId + " 读取失败", e && e.message ? e.message : String(e));
+      return [];
+    }
+  }
   var data = { id: channelId, page: String(page) };
   var base = TX_CHANNEL_FILTER[channelId] || {};
   for (var k in base) if (Object.prototype.hasOwnProperty.call(base, k)) data[k] = base[k];
