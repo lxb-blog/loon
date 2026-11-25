@@ -2,9 +2,9 @@
 var WidgetMetadata = {
   id: "com.rex.txxkl7s60j",
   title: "糖心Vlog",
-  version: "1.1.0",
+  version: "1.1.1",
   requiredVersion: "0.0.1",
-  description: "糖心Vlog 全量三级分类（9频道/36板块/146标签）、搜索、详情、Worker 播放、弹幕、封面代理、限频熔断",
+  description: "糖心Vlog 一级频道独立入口+全量三级分类（8频道/36板块/146标签）、搜索、详情、Worker 播放、弹幕、封面代理",
   author: "Rex Module",
   site: "https://txxkl7s60j.com",
   contentType: "video",
@@ -14,6 +14,94 @@ var WidgetMetadata = {
   modules: [
     { id: "home", title: "首页精选", functionName: "loadHome",
       params: [{ name: "page", title: "页码", type: "page" }] },
+    { id: "ch1", title: "频道 · 精选", functionName: "loadBlocks",
+      params: [
+        { name: "channel", title: "频道", type: "constant", value: "1" },
+        { name: "order", title: "排序", type: "enumeration", enumOptions: [
+            { title: "最新", value: "new" },
+            { title: "热度最高", value: "hot" },
+            { title: "最多观看", value: "click" },
+            { title: "最多收藏", value: "favorite" }
+          ] },
+        { name: "page", title: "页码", type: "page" }
+      ] },
+    { id: "ch2", title: "频道 · 最新", functionName: "loadBlocks",
+      params: [
+        { name: "channel", title: "频道", type: "constant", value: "2" },
+        { name: "order", title: "排序", type: "enumeration", enumOptions: [
+            { title: "最新", value: "new" },
+            { title: "热度最高", value: "hot" },
+            { title: "最多观看", value: "click" },
+            { title: "最多收藏", value: "favorite" }
+          ] },
+        { name: "page", title: "页码", type: "page" }
+      ] },
+    { id: "ch4", title: "频道 · 原创", functionName: "loadBlocks",
+      params: [
+        { name: "channel", title: "频道", type: "constant", value: "4" },
+        { name: "order", title: "排序", type: "enumeration", enumOptions: [
+            { title: "最新", value: "new" },
+            { title: "热度最高", value: "hot" },
+            { title: "最多观看", value: "click" },
+            { title: "最多收藏", value: "favorite" }
+          ] },
+        { name: "page", title: "页码", type: "page" }
+      ] },
+    { id: "ch7", title: "频道 · 网黄", functionName: "loadBlocks",
+      params: [
+        { name: "channel", title: "频道", type: "constant", value: "7" },
+        { name: "order", title: "排序", type: "enumeration", enumOptions: [
+            { title: "最新", value: "new" },
+            { title: "热度最高", value: "hot" },
+            { title: "最多观看", value: "click" },
+            { title: "最多收藏", value: "favorite" }
+          ] },
+        { name: "page", title: "页码", type: "page" }
+      ] },
+    { id: "ch8", title: "频道 · 福利姬", functionName: "loadBlocks",
+      params: [
+        { name: "channel", title: "频道", type: "constant", value: "8" },
+        { name: "order", title: "排序", type: "enumeration", enumOptions: [
+            { title: "最新", value: "new" },
+            { title: "热度最高", value: "hot" },
+            { title: "最多观看", value: "click" },
+            { title: "最多收藏", value: "favorite" }
+          ] },
+        { name: "page", title: "页码", type: "page" }
+      ] },
+    { id: "ch20", title: "频道 · 典藏", functionName: "loadBlocks",
+      params: [
+        { name: "channel", title: "频道", type: "constant", value: "20" },
+        { name: "order", title: "排序", type: "enumeration", enumOptions: [
+            { title: "最新", value: "new" },
+            { title: "热度最高", value: "hot" },
+            { title: "最多观看", value: "click" },
+            { title: "最多收藏", value: "favorite" }
+          ] },
+        { name: "page", title: "页码", type: "page" }
+      ] },
+    { id: "ch9", title: "频道 · AV", functionName: "loadBlocks",
+      params: [
+        { name: "channel", title: "频道", type: "constant", value: "9" },
+        { name: "order", title: "排序", type: "enumeration", enumOptions: [
+            { title: "最新", value: "new" },
+            { title: "热度最高", value: "hot" },
+            { title: "最多观看", value: "click" },
+            { title: "最多收藏", value: "favorite" }
+          ] },
+        { name: "page", title: "页码", type: "page" }
+      ] },
+    { id: "ch21", title: "频道 · 国产", functionName: "loadBlocks",
+      params: [
+        { name: "channel", title: "频道", type: "constant", value: "21" },
+        { name: "order", title: "排序", type: "enumeration", enumOptions: [
+            { title: "最新", value: "new" },
+            { title: "热度最高", value: "hot" },
+            { title: "最多观看", value: "click" },
+            { title: "最多收藏", value: "favorite" }
+          ] },
+        { name: "page", title: "页码", type: "page" }
+      ] },
     { id: "block", title: "分区频道（全量三级）", functionName: "loadBlocks",
       params: [
         { name: "channel", title: "一级·频道", type: "enumeration", enumOptions: [
