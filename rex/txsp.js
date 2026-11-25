@@ -2,7 +2,7 @@
 var WidgetMetadata = {
   id: "com.rex.txxkl7s60j",
   title: "糖心Vlog",
-  version: "1.0.2",
+  version: "1.0.4",
   requiredVersion: "0.0.1",
   description: "糖心Vlog 首页精选、分区频道、标签筛选、搜索、详情、Worker 完整播放线路与弹幕",
   author: "Rex Module",
@@ -407,6 +407,7 @@ function gunzip(src){
 var TX_BASE = "https://txxkl7s60j.com";
 var TX_UPSTREAM_HOST = "txxkl7s60j.com";
 var TX_WORKER_BASE = "https://txscript.pages.dev/tx";
+var TX_RELAY_BASE = "https://tx-relay.648226460.workers.dev";
 var TX_APPKEY = "e0202eee7ef7807f";
 var TX_SECRET = "2DCiXDoNmuQrJjxktdLPy5cXcVhoC5pw|";
 var TX_STORE = "tx_vlog_session_v1";
@@ -465,27 +466,44 @@ async function txRaw(path, data, token, st, viaWorker, bodyMode) {
   var url = viaWorker && TX_WORKER_BASE
     ? TX_WORKER_BASE + "/" + TX_UPSTREAM_HOST + upstreamPath
     : TX_BASE + upstreamPath;
-  var r = await Widget.http.request({
-    url: url,
-    method: "POST",
-    headers: {
-      "accept": "*/*",
-      "origin": "https://" + TX_UPSTREAM_HOST,
-      "version": "4.80.1", "deviceType": "web", "time": time, "sign": sign,
-      "requestId": reqId, "sessionId": st.sessionId,
-      "deviceBrand": "", "deviceModel": "", "systemName": "", "systemVersion": "",
-      "deviceFingerprint": st.fingerprint || "", "fpVersion": "3.0.0", "sdkVersion": "1.4.8",
-      "Content-Type": "application/octet-stream"
-    },
-    // 部分 Rex 宿主不会原样发送 Uint8Array，会把它序列化成普通对象，
-    // 此时上游会返回「安全性错误D」。bodyMode=1 改用 base64 字符串请求体，
-    // 由支持 base64Data 的宿主解码成原始字节。
-    data: bodyMode === 1 ? b64encode(wire) : wire,
-    base64Data: true,
-    decodable: false,
-    timeout: 20
-  });
-  var enc = b64decode(String(r.data || ""));
+  var headers = {
+    "accept": "*/*",
+    "origin": "https://" + TX_UPSTREAM_HOST,
+    "version": "4.80.1", "deviceType": "web", "time": time, "sign": sign,
+    "requestId": reqId, "sessionId": st.sessionId,
+    "deviceBrand": "", "deviceModel": "", "systemName": "", "systemVersion": "",
+    "deviceFingerprint": st.fingerprint || "", "fpVersion": "3.0.0", "sdkVersion": "1.4.8",
+    "Content-Type": "application/octet-stream"
+  };
+  var enc;
+  if (TX_RELAY_BASE) {
+    // Rex 的 HTTP 桥接层发不了原始二进制；把加密后的字节转 base64，
+    // 交给 Cloudflare Worker 还原为 raw body 后转发，再把响应 base64 返回。
+    var r = await Widget.http.request({
+      url: TX_RELAY_BASE,
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      data: { url: url, headers: headers, bodyBase64: b64encode(wire) },
+      decodable: true,
+      timeout: 20
+    });
+    var reply = r && r.data ? r.data : null;
+    if (!reply || reply.ok !== true) throw new Error("中转代理失败：" + (reply && reply.error ? reply.error : "无响应"));
+    enc = b64decode(String(reply.data || ""));
+  } else {
+    var r = await Widget.http.request({
+      url: url,
+      method: "POST",
+      headers: headers,
+      // 部分 Rex 宿主不会原样发送 Uint8Array，会把它序列化成普通对象，
+      // 此时上游会返回「安全性错误D」。bodyMode=1 改用 base64 字符串请求体。
+      data: bodyMode === 1 ? b64encode(wire) : wire,
+      base64Data: true,
+      decodable: false,
+      timeout: 20
+    });
+    enc = b64decode(String(r.data || ""));
+  }
   if (enc.length < 32) throw new Error("糖心接口返回数据过短");
   var dec = aesDecrypt(txKey(reqId), enc.subarray(0, 16), enc.subarray(16));
   return JSON.parse(fromUTF8(gunzip(dec)));
@@ -629,9 +647,23 @@ async function loadBlocks(params) {
   var data = { id: String(id), page: String(page) };
   for (var k in filter) if (Object.prototype.hasOwnProperty.call(filter, k)) data[k] = filter[k];
   data.page = String(page);
-  var sections = await txApi("/movie/navBlock", data, params) || [];
-  var out = [], chosen = null;
-  for (var a = 0; a < sections.length; a++) if (String(sections[a].id) === String(id)) { chosen = sections[a]; break; }
+  var sections = [];
+  try { sections = await txApi("/movie/navBlock", data, params) || []; }
+  catch (e) { console.log("分区直取失败，改从首页分区中筛选", e && e.message ? e.message : String(e)); }
+  var findSection = function (rows) {
+    for (var a = 0; a < rows.length; a++) if (String(rows[a].id) === String(id)) return rows[a];
+    return null;
+  };
+  var chosen = findSection(sections);
+  if (!chosen) {
+    // 部分分区不能用自身 id 直接请求 navBlock，只能从首页分区里挑同名板块。
+    try {
+      var homeSections = await txApi("/movie/navBlock", { id: "1", page: String(page) }, params) || [];
+      chosen = findSection(homeSections);
+      sections = chosen ? [chosen] : homeSections;
+    } catch (e) { console.log("首页分区回退失败", e && e.message ? e.message : String(e)); }
+  }
+  var out = [];
   var list = chosen ? [chosen] : sections;
   for (var b = 0; b < list.length; b++) {
     if (String(list[b].id) === "-1" || String(list[b].id) === "-3") continue;
