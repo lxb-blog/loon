@@ -2,7 +2,7 @@
 var WidgetMetadata = {
   id: "com.rex.txxkl7s60j",
   title: "糖心Vlog",
-  version: "1.0.4",
+  version: "1.0.6",
   requiredVersion: "0.0.1",
   description: "糖心Vlog 首页精选、分区频道、标签筛选、搜索、详情、Worker 完整播放线路与弹幕",
   author: "Rex Module",
@@ -411,6 +411,8 @@ var TX_RELAY_BASE = "https://tx-relay.648226460.workers.dev";
 var TX_APPKEY = "e0202eee7ef7807f";
 var TX_SECRET = "2DCiXDoNmuQrJjxktdLPy5cXcVhoC5pw|";
 var TX_STORE = "tx_vlog_session_v1";
+var TX_CACHE = "tx_vlog_cache_v1";
+var TX_HOME_ONLY_BLOCKS = { "3": 1, "244": 1, "238": 1 };
 
 function txUUID() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
@@ -441,6 +443,11 @@ function txAbs(url) {
   if (!url) return "";
   if (/^https?:\/\//i.test(url)) return url;
   return TX_BASE + (url.charAt(0) === "/" ? url : "/" + url);
+}
+function txImg(url) {
+  url = txAbs(url || "");
+  if (!url || !TX_RELAY_BASE || url.indexOf(TX_RELAY_BASE) === 0) return url;
+  return TX_RELAY_BASE + "/image?url=" + encodeURIComponent(url);
 }
 function txDuration(str) {
   if (!str) return undefined;
@@ -581,13 +588,33 @@ async function txApi(path, data, params, playback) {
   }
   throw lastError || new Error("糖心接口返回异常");
 }
+function txCacheKey(path, data, params, playback) {
+  return String((params && params.token) || "") + "|" + (playback ? "worker" : "direct") + "|" + path + "|" + JSON.stringify(data || {});
+}
+async function txCached(path, data, params, ttl, playback) {
+  var cache = {};
+  try { cache = JSON.parse(Widget.storage.get(TX_CACHE) || "{}") || {}; } catch (e) { cache = {}; }
+  var key = txCacheKey(path, data, params, playback), now = Date.now(), hit = cache[key];
+  if (hit && hit.t && now - hit.t < ttl && hit.v !== undefined) return hit.v;
+  var v = await txApi(path, data, params || {}, playback);
+  try {
+    cache[key] = { t: now, v: v };
+    var keys = Object.keys(cache);
+    if (keys.length > 80) {
+      keys.sort(function (a, b) { return (cache[a].t || 0) - (cache[b].t || 0); });
+      for (var i = 0; i < keys.length - 60; i++) delete cache[keys[i]];
+    }
+    Widget.storage.set(TX_CACHE, JSON.stringify(cache));
+  } catch (e) { console.log("缓存写入失败", e); }
+  return v;
+}
 function txItem(m, sectionName) {
   var id = String(m.id || "");
   var people = [];
   var users = m.user_id || m.actors || [];
   for (var i = 0; i < users.length; i++) {
     people.push({ id: String(users[i].id || ""), title: users[i].nickname || users[i].username || "",
-      avatar: txAbs(users[i].headico || ""), role: "演员" });
+      avatar: txImg(users[i].headico || ""), role: "演员" });
   }
   var genres = [];
   var tags = m.tags || [];
@@ -596,7 +623,7 @@ function txItem(m, sectionName) {
     id: id, type: "url", link: "tx:" + id,
     title: m.name || "",
     subtitle: sectionName || m.cat_name || (m.user_id && m.user_id[0] ? m.user_id[0].nickname : "") || "",
-    coverUrl: txAbs(m.img || ""),
+    coverUrl: txImg(m.img || ""),
     description: m.description || "",
     rating: m.score || m.rating || "",
     duration: txDuration(m.duration),
@@ -619,7 +646,7 @@ function txUnique(items) {
 async function loadHome(params) {
   params = params || {};
   var page = Number(params.page) || 1;
-  var d = await txApi("/movie/navBlock", { id: "1", page: String(page) }, params);
+  var d = await txCached("/movie/navBlock", { id: "1", page: String(page) }, params, 120000);
   var sections = d || [], out = [];
   for (var i = 0; i < sections.length; i++) {
     var s = sections[i];
@@ -632,33 +659,38 @@ async function loadHome(params) {
 
 async function loadBlocks(params) {
   params = params || {};
-  var id = params.id || "1";
+  var id = String(params.id || "1");
   var order = params.order || "new";
   var page = Number(params.page) || 1;
+  var homeOnly = !!TX_HOME_ONLY_BLOCKS[id];
   var filter = {};
-  try {
-    var detail = await txApi("/movie/blockDetail", { id: String(id) }, params);
-    var filters = (detail && detail.filters) || [];
-    for (var i = 0; i < filters.length; i++) {
-      if (filters[i].filter && filters[i].filter.order === order) { filter = filters[i].filter; break; }
-    }
-    if (!filter.order && filters.length && filters[0].filter) filter = filters[0].filter;
-  } catch (e) { console.log("分区筛选读取失败", e); }
-  var data = { id: String(id), page: String(page) };
+  if (!homeOnly) {
+    try {
+      var detail = await txCached("/movie/blockDetail", { id: id }, params, 600000);
+      var filters = (detail && detail.filters) || [];
+      for (var i = 0; i < filters.length; i++) {
+        if (filters[i].filter && filters[i].filter.order === order) { filter = filters[i].filter; break; }
+      }
+      if (!filter.order && filters.length && filters[0].filter) filter = filters[0].filter;
+    } catch (e) { console.log("分区筛选读取失败", e); }
+  }
+  var data = { id: id, page: String(page) };
   for (var k in filter) if (Object.prototype.hasOwnProperty.call(filter, k)) data[k] = filter[k];
   data.page = String(page);
   var sections = [];
-  try { sections = await txApi("/movie/navBlock", data, params) || []; }
-  catch (e) { console.log("分区直取失败，改从首页分区中筛选", e && e.message ? e.message : String(e)); }
+  if (!homeOnly) {
+    try { sections = await txCached("/movie/navBlock", data, params, 120000) || []; }
+    catch (e) { console.log("分区直取失败，改从首页分区中筛选", e && e.message ? e.message : String(e)); }
+  }
   var findSection = function (rows) {
-    for (var a = 0; a < rows.length; a++) if (String(rows[a].id) === String(id)) return rows[a];
+    for (var a = 0; a < rows.length; a++) if (String(rows[a].id) === id) return rows[a];
     return null;
   };
   var chosen = findSection(sections);
   if (!chosen) {
     // 部分分区不能用自身 id 直接请求 navBlock，只能从首页分区里挑同名板块。
     try {
-      var homeSections = await txApi("/movie/navBlock", { id: "1", page: String(page) }, params) || [];
+      var homeSections = await txCached("/movie/navBlock", { id: "1", page: String(page) }, params, 120000) || [];
       chosen = findSection(homeSections);
       sections = chosen ? [chosen] : homeSections;
     } catch (e) { console.log("首页分区回退失败", e && e.message ? e.message : String(e)); }
@@ -677,7 +709,7 @@ async function loadTag(params) {
   var kw = String(params.tag || "").trim().toLowerCase();
   if (!kw) return [];
   var page = Number(params.page) || 1;
-  var sections = await txApi("/movie/navBlock", { id: "1", page: String(page) }, params) || [];
+  var sections = await txCached("/movie/navBlock", { id: "1", page: String(page) }, params, 120000) || [];
   var out = [];
   for (var i = 0; i < sections.length; i++) {
     var s = sections[i];
@@ -698,14 +730,14 @@ async function search(params) {
   var page = Number(params.page) || 1;
   if (params.token) {
     try {
-      var d = await txApi("/search/movie", { keyword: kw, page: String(page), page_size: "20", position: "search" }, params);
+      var d = await txCached("/search/movie", { keyword: kw, page: String(page), page_size: "20", position: "search" }, params, 120000);
       var rows = Array.isArray(d) ? d : ((d && d.data) || []);
       if (rows.length) return txUnique(rows.map(function (m) { return txItem(m, "搜索"); }));
     } catch (e) { console.log("在线搜索不可用，改用本地筛选", e); }
   }
   var out = [];
   for (var p = 1; p <= 2; p++) {
-    var sections = await txApi("/movie/navBlock", { id: "1", page: String(p) }, params) || [];
+    var sections = await txCached("/movie/navBlock", { id: "1", page: String(p) }, params, 120000) || [];
     for (var i = 0; i < sections.length; i++) {
       var s = sections[i];
       if (String(s.id) === "-1" || String(s.id) === "-3") continue;
@@ -720,44 +752,33 @@ async function search(params) {
 
 async function loadDetail(link) {
   var id = String(link || "").replace(/^tx:/, "");
-  // 详情元数据直连；播放线路单独经 Worker 再取一次，避免境内直连只返回试看片。
-  var m = await txApi("/movie/detail", { id: id, lid: "", referer: "" }, {}, false);
-  var playData = null;
-  try { playData = await txApi("/movie/detail", { id: id }, {}, true); }
-  catch (e) { console.log("Worker 播放链接解析失败，回退详情接口线路", e); }
+  // 详情页只取元数据，不请求播放解析 Worker，也不下发直连试看链接。
+  // 用户真正点击播放时 Rex 会调用 loadResource，那里才走 Worker 拿播放线路。
+  var m = await txCached("/movie/detail", { id: id }, {}, 600000, false);
   var people = [], actors = m.actors || m.user_id || [];
   for (var i = 0; i < actors.length; i++) {
     people.push({ id: String(actors[i].id || ""), title: actors[i].nickname || actors[i].username || "",
-      avatar: txAbs(actors[i].headico || ""), role: "演员" });
+      avatar: txImg(actors[i].headico || ""), role: "演员" });
   }
   var genres = [], tags = m.tags || [];
   for (var j = 0; j < tags.length; j++) genres.push({ id: String(tags[j].id || ""), title: tags[j].name || "" });
-  var workerLinks = (playData && playData.play_links) || [];
-  var links = workerLinks.length ? workerLinks : (m.play_links || []);
-  var item = {
+  return {
     id: String(m.id || id), type: "url", link: link,
     title: m.name || "", description: m.description || "",
-    coverUrl: txAbs(m.img || ""), backdropPaths: [],
+    coverUrl: txImg(m.img || ""), backdropPaths: [],
     rating: m.score || "", duration: txDuration(m.duration),
     releaseDate: m.show_at || "",
     genreItems: genres, peoples: people,
     subtitle: m.cat_name || "",
     customHeaders: {}
   };
-  if (links.length > 1) {
-    item.episodeItems = links.map(function (l, idx) {
-      return { id: String(l.id || id), type: "url", title: l.name || ("线路 " + (idx + 1)),
-        episode: idx + 1, videoUrl: txAbs(l.m3u8_url || "") };
-    });
-  } else if (links.length === 1) item.videoUrl = txAbs(links[0].m3u8_url || "");
-  return item;
 }
 
 async function loadResource(ctx) {
   ctx = ctx || {};
   var id = String(ctx.id || ctx.link || "").replace(/^tx:/, "");
-  // 用户要求播放链接走新 Worker：同一加密请求体发往 Worker，签名仍按上游域名生成。
-  var m = await txApi("/movie/detail", { id: id }, {}, true);
+  // 播放链接走 Worker，并复用详情缓存，避免频繁触发 Rex 代理限频。
+  var m = await txCached("/movie/detail", { id: id }, {}, 180000, true);
   return (m.play_links || []).map(function (l, idx) {
     return { name: l.name || l.code || ("线路 " + (idx + 1)),
       url: txAbs(l.m3u8_url || ""), description: l.code || "",
@@ -779,9 +800,9 @@ async function getDetail(ctx) {
 async function getComments(ctx) {
   ctx = ctx || {};
   var id = String(ctx.commentId || ctx.animeId || ctx.id || "").replace(/^tx:/, "");
-  var d = await txApi("/danmaku/list", {
+  var d = await txCached("/danmaku/list", {
     object_id: id, sub_id: "", object_type: "movie", start_pos: "0", end_pos: "3600"
-  }, {});
+  }, {}, 300000);
   var rows = d || [];
   return { comments: rows.map(function (c) {
     return { p: (c.pos || "0") + ",1," + (c.size || "16") + "," + (c.color || "16777215"), m: c.content || "" };
