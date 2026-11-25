@@ -2,9 +2,9 @@
 var WidgetMetadata = {
   id: "com.rex.txxkl7s60j",
   title: "糖心Vlog",
-  version: "1.0.8",
+  version: "1.1.0",
   requiredVersion: "0.0.1",
-  description: "糖心Vlog 首页精选、分区频道、标签筛选、搜索、详情、Worker 播放线路与弹幕（限频熔断+封面代理+自定义域名）",
+  description: "糖心Vlog 全量三级分类（9频道/36板块/146标签）、搜索、详情、Worker 播放、弹幕、封面代理、限频熔断",
   author: "Rex Module",
   site: "https://txxkl7s60j.com",
   contentType: "video",
@@ -17,8 +17,7 @@ var WidgetMetadata = {
     { id: "block", title: "分区频道（全量三级）", functionName: "loadBlocks",
       params: [
         { name: "channel", title: "一级·频道", type: "enumeration", enumOptions: [
-          { title: "全部频道", value: "" },
-          { title: "精选", value: "1" }, { title: "最新", value: "2" }, { title: "原创", value: "4" }, { title: "网黄", value: "7" }, { title: "福利姬", value: "8" }, { title: "典藏", value: "20" }, { title: "AV", value: "9" }, { title: "国产", value: "21" }
+          { title: "精选（默认）", value: "1" }, { title: "全部频道※较慢", value: "" }, { title: "最新", value: "2" }, { title: "原创", value: "4" }, { title: "网黄", value: "7" }, { title: "福利姬", value: "8" }, { title: "典藏", value: "20" }, { title: "AV", value: "9" }, { title: "国产", value: "21" }
         ] },
         { name: "block", title: "二级·板块", type: "enumeration", enumOptions: [
           { title: "全部板块", value: "" },
@@ -665,7 +664,6 @@ var TX_APPKEY = "e0202eee7ef7807f";
 var TX_SECRET = "2DCiXDoNmuQrJjxktdLPy5cXcVhoC5pw|";
 var TX_STORE = "tx_vlog_session_v1";
 var TX_CACHE = "tx_vlog_cache_v1";
-var TX_HOME_ONLY_BLOCKS = { "3": 1, "244": 1, "238": 1 };
 
 function txUUID() {
   return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, function (c) {
