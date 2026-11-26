@@ -21,7 +21,7 @@ var WidgetMetadata = {
   title: '萝莉岛',
   description: '萝莉岛，对就那个岛',
   site: H,
-  version: '1.0.1',
+  version: '1.0.2',
   requiredVersion: '0.0.7',
   contentType: '李小白',
   modules: [
@@ -159,7 +159,7 @@ var WidgetMetadata = {
 
     /* ---- 功能块 1.4：入口占位 3 ---- */
     {
-      id: 'block3',
+      id: 'block36',
       title: '伦理',
       subtitle: '分类 / 标签都在 enumOptions 里自己填',
       functionName: 'loadCategory',
