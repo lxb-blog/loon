@@ -12,9 +12,9 @@ var UA = 'Mozilla/5.0 (Linux; Android 12; TFY-AN00 Build/HONORTFY-AN00; wv) Appl
 var HEADERS = { 'User-Agent': UA, 'Referer': H + '/' };
 
 WidgetMetadata = {
-  id: 'com.hongguo.duanju',
-  title: '红果短剧',
-  description: '红果短剧分类、筛选、选集与播放',
+  id: 'com. luolidao.lixiaobai',
+  title: '萝莉岛',
+  description: ' 李小白',
   site: H,
   version: '1.0.0',
   requiredVersion: '0.0.7',
@@ -22,7 +22,7 @@ WidgetMetadata = {
   modules: [
     {
       id: 'categories',
-      title: '短剧分类',
+      title: '分类',
       functionName: 'loadCategory',
       params: [
         {
