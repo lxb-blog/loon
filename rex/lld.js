@@ -21,7 +21,7 @@ var WidgetMetadata = {
   title: '萝莉岛',
   description: '萝莉岛，对就那个岛',
   site: H,
-  version: '1.0.0',
+  version: '1.0.1',
   requiredVersion: '0.0.7',
   contentType: '李小白',
   modules: [
@@ -35,8 +35,8 @@ var WidgetMetadata = {
           name: 'class',
           title: '分类',
           type: 'enumeration',
-          enumOptions:[
-            
+          enumOptions: [
+
             { title: "高中", value: "高中" },
             { title: "初中", value: "初中" },
             { title: "小学", value: "小学" },
@@ -72,7 +72,7 @@ var WidgetMetadata = {
           title: '标签',
           type: 'enumeration',
           enumOptions: [
-            
+
             { title: "少女萝莉", value: "少女萝莉" },
             { title: "迷奸强奸", value: "迷奸强奸" },
             { title: "少女媚黑", value: "少女媚黑" },
@@ -105,9 +105,10 @@ var WidgetMetadata = {
           type: 'enumeration',
           value: '1',
           enumOptions: [
-            { title: '默认 sort=1', value: '1' },
-            { title: '占位 sort=2', value: '2' },
-            { title: '占位 sort=3', value: '3' }
+            { title: '推荐', value: '1' },
+            { title: '最新', value: '2' },
+            { title: '最热', value: '3' },
+            { title: '精华', value: '4' }
           ]
         },
         { name: 'page', title: '页码', type: 'page', startPage: 1 }
@@ -146,9 +147,10 @@ var WidgetMetadata = {
           type: 'enumeration',
           value: '1',
           enumOptions: [
-            { title: '默认 sort=1', value: '1' },
-            { title: '占位 sort=2', value: '2' },
-            { title: '占位 sort=3', value: '3' }
+            { title: '推荐', value: '1' },
+            { title: '最新', value: '2' },
+            { title: '最热', value: '3' },
+            { title: '精华', value: '4' }
           ]
         },
         { name: 'page', title: '页码', type: 'page', startPage: 1 }
@@ -187,17 +189,18 @@ var WidgetMetadata = {
           type: 'enumeration',
           value: '1',
           enumOptions: [
-            { title: '默认 sort=1', value: '1' },
-            { title: '占位 sort=2', value: '2' },
-            { title: '占位 sort=3', value: '3' }
+            { title: '推荐', value: '1' },
+            { title: '最新', value: '2' },
+            { title: '最热', value: '3' },
+            { title: '精华', value: '4' }
           ]
         },
         { name: 'page', title: '页码', type: 'page', startPage: 1 }
       ]
     },
-/* ---- 功能块 1.5：分类列表 ---- */
+    /* ---- 功能块 1.5：分类列表 ---- */
     {
-      id: 'categories',
+      id: 'block3',
       title: '国产',
       functionName: 'loadCategory',
       params: [
@@ -205,8 +208,8 @@ var WidgetMetadata = {
           name: 'class',
           title: '分类',
           type: 'enumeration',
-          enumOptions:[
-            
+          enumOptions: [
+
             { title: "SM捆绑", value: "SM捆绑" },
             { title: "勾引搭讪", value: "勾引搭讪" },
             { title: "群P群战", value: "群P群战" },
@@ -240,9 +243,9 @@ var WidgetMetadata = {
         { name: 'page', title: '页码', type: 'page', startPage: 1 }
       ]
     },
-/* ---- 功能块 1.6：分类列表 ---- */
+    /* ---- 功能块 1.6：分类列表 ---- */
     {
-      id: 'categories',
+      id: 'block4',
       title: '禁漫',
       functionName: 'loadCategory',
       params: [
@@ -250,8 +253,8 @@ var WidgetMetadata = {
           name: 'class',
           title: '分类',
           type: 'enumeration',
-          enumOptions:[
-            
+          enumOptions: [
+
             { title: "原神", value: "原神" },
             { title: "崩坏", value: "崩坏" },
             { title: "斗罗大陆", value: "斗罗大陆" },
@@ -286,9 +289,9 @@ var WidgetMetadata = {
         { name: 'page', title: '页码', type: 'page', startPage: 1 }
       ]
     },
-/* ---- 功能块 1.7：分类列表 ---- */
+    /* ---- 功能块 1.7：分类列表 ---- */
     {
-      id: 'categories',
+      id: 'block25',
       title: '网黄',
       functionName: 'loadCategory',
       params: [
@@ -296,8 +299,8 @@ var WidgetMetadata = {
           name: 'class',
           title: '分类',
           type: 'enumeration',
-          enumOptions:[
-            
+          enumOptions: [
+
             { title: "台北娜娜", value: "台北娜娜" },
             { title: "柚子猫", value: "柚子猫" },
             { title: "桥本香菜", value: "桥本香菜" },
@@ -343,9 +346,9 @@ var WidgetMetadata = {
         { name: 'page', title: '页码', type: 'page', startPage: 1 }
       ]
     },
-/* ---- 功能块 1.8：分类列表 ---- */
+    /* ---- 功能块 1.8：分类列表 ---- */
     {
-      id: 'categories',
+      id: 'block26',
       title: '福利姬',
       functionName: 'loadCategory',
       params: [
@@ -353,8 +356,8 @@ var WidgetMetadata = {
           name: 'class',
           title: '分类',
           type: 'enumeration',
-          enumOptions:[
-            
+          enumOptions: [
+
             { title: "情深叉喔", value: "情深叉喔" },
             { title: "桃桃酱", value: "桃桃酱" },
             { title: "私人玩物", value: "私人玩物" },
@@ -390,7 +393,7 @@ var WidgetMetadata = {
             { title: "小晚酱", value: "小晚酱" },
             { title: "白桃少女", value: "白桃少女" },
             { title: "樱花小猫", value: "樱花小猫" },
-            { title: "仙仙桃", value: "仙仙桃" },          ]
+            { title: "仙仙桃", value: "仙仙桃" },]
         },
         {
           name: 'sort',
@@ -407,9 +410,9 @@ var WidgetMetadata = {
         { name: 'page', title: '页码', type: 'page', startPage: 1 }
       ]
     },
-/* ---- 功能块 1.9：分类列表 ---- */
+    /* ---- 功能块 1.9：分类列表 ---- */
     {
-      id: 'categories',
+      id: 'block27',
       title: 'P站',
       functionName: 'loadCategory',
       params: [
@@ -417,8 +420,8 @@ var WidgetMetadata = {
           name: 'class',
           title: '分类',
           type: 'enumeration',
-          enumOptions:[
-            
+          enumOptions: [
+
             { title: "Candy Love", value: "Candy Love" },
             { title: "Sweetie Fox", value: "Sweetie Fox" },
             { title: "Daisybaby台湾", value: "Daisybaby台湾" },
@@ -456,9 +459,9 @@ var WidgetMetadata = {
         { name: 'page', title: '页码', type: 'page', startPage: 1 }
       ]
     },
-/* ---- 功能块 1.10：分类列表 ---- */
+    /* ---- 功能块 1.10：分类列表 ---- */
     {
-      id: 'categories',
+      id: 'block28',
       title: 'AV',
       functionName: 'loadCategory',
       params: [
@@ -466,8 +469,8 @@ var WidgetMetadata = {
           name: 'class',
           title: '分类',
           type: 'enumeration',
-          enumOptions:[
-            
+          enumOptions: [
+
             { title: "中文字幕", value: "中文字幕" },
             { title: "步兵无码", value: "步兵无码" },
             { title: "无码FC2", value: "无码FC2" },
@@ -501,9 +504,9 @@ var WidgetMetadata = {
         { name: 'page', title: '页码', type: 'page', startPage: 1 }
       ]
     },
-/* ---- 功能块 1.11：分类列表 ---- */
+    /* ---- 功能块 1.11：分类列表 ---- */
     {
-      id: 'categories',
+      id: 'block29',
       title: '传媒',
       functionName: 'loadCategory',
       params: [
@@ -511,8 +514,8 @@ var WidgetMetadata = {
           name: 'class',
           title: '分类',
           type: 'enumeration',
-          enumOptions:[
-            
+          enumOptions: [
+
             { title: "JVID", value: "JVID" },
             { title: "SWAG", value: "SWAG" },
             { title: "麻豆传媒", value: "麻豆传媒" },
@@ -546,9 +549,9 @@ var WidgetMetadata = {
         { name: 'page', title: '页码', type: 'page', startPage: 1 }
       ]
     },
-/* ---- 功能块 1.12：分类列表 ---- */
+    /* ---- 功能块 1.12：分类列表 ---- */
     {
-      id: 'categories',
+      id: 'block210',
       title: '暗黑萝莉',
       functionName: 'loadCategory',
       params: [
@@ -556,8 +559,8 @@ var WidgetMetadata = {
           name: 'class',
           title: '分类',
           type: 'enumeration',
-          enumOptions:[
-             
+          enumOptions: [
+
             { title: "暗网萝莉", value: "暗网萝莉" },
             { title: "N号房", value: "N号房" },
             { title: "3D重口", value: "3D重口" },
@@ -579,9 +582,9 @@ var WidgetMetadata = {
         { name: 'page', title: '页码', type: 'page', startPage: 1 }
       ]
     },
-/* ---- 功能块 1.11：分类列表 ---- */
+    /* ---- 功能块 1.11：分类列表 ---- */
     {
-      id: 'categories',
+      id: 'block211',
       title: '暴力喋血',
       functionName: 'loadCategory',
       params: [
@@ -589,8 +592,8 @@ var WidgetMetadata = {
           name: 'class',
           title: '分类',
           type: 'enumeration',
-          enumOptions:[
-            
+          enumOptions: [
+
             { title: "暴力奸杀", value: "暴力奸杀" },
             { title: "战火纷飞", value: "战火纷飞" },
             { title: "事故现场", value: "事故现场" },
@@ -612,9 +615,9 @@ var WidgetMetadata = {
         { name: 'page', title: '页码', type: 'page', startPage: 1 }
       ]
     },
-/* ---- 功能块 1.11：分类列表 ---- */
+    /* ---- 功能块 1.11：分类列表 ---- */
     {
-      id: 'categories',
+      id: 'block212',
       title: '恐怖惊悚',
       functionName: 'loadCategory',
       params: [
@@ -622,8 +625,8 @@ var WidgetMetadata = {
           name: 'class',
           title: '分类',
           type: 'enumeration',
-          enumOptions:[
-             
+          enumOptions: [
+
             { title: "恶心恐怖", value: "恶心恐怖" },
             { title: "灵异玄幻", value: "灵异玄幻" },
             { title: "真实奸尸", value: "真实奸尸" },
@@ -667,9 +670,10 @@ var WidgetMetadata = {
         type: 'enumeration',
         value: '1',
         enumOptions: [
-          { title: '默认 sort=1', value: '1' },
-          { title: '占位 sort=2', value: '2' },
-          { title: '占位 sort=3', value: '3' }
+          { title: '推荐', value: '1' },
+            { title: '最新', value: '2' },
+            { title: '最热', value: '3' },
+            { title: '精华', value: '4' }
         ]
       }
     ]
