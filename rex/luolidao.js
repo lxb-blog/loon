@@ -1,9 +1,4 @@
 
-/**
- * 红果短剧 — Rex Widget 模块
- * 由 TVBox Python spider 转换而来：首页分类/标签筛选、分类分页、详情选集、直链播放。
- * 说明：源站未提供搜索接口，search 采用「遍历分类 + 本地标题匹配」的兜底实现。
- */
 
 var H = 'https://dag29jmgma1g.site';
 var UA = 'Mozilla/5.0 (Linux; Android 12; TFY-AN00 Build/HONORTFY-AN00; wv) AppleWebKit/537.36 ' +
@@ -14,9 +9,9 @@ var HEADERS = { 'User-Agent': UA, 'Referer': H + '/' };
 WidgetMetadata = {
   id: 'com. luolidao.lixiaobai',
   title: '萝莉岛',
-  description: ' 李小白',
+  description: ' 萝莉岛，对就那个岛',
   site: H,
-  version: '1.0.0',
+  version: '1.0.1',
   requiredVersion: '0.0.7',
   contentType: 'shortDrama',
   modules: [
