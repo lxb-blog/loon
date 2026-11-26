@@ -2,10 +2,10 @@
 var WidgetMetadata = {
   id: "com.rex.txxkl7s60j",
   title: "糖心Vlog",
-  version: "1.4.2",
+  version: "1.4.2.1",
   requiredVersion: "0.0.1",
-  description: "糖心Vlog 一级频道独立入口+板块/标签/完整列表全由服务器提供；刷新由服务器定时+后台按钮负责+动态标签筛选+搜索+详情+Worker 播放+弹幕+封面过滤；下拉刷新实时拉最新；修复典藏/国产(video_3)频道内容为空",
-  author: "Rex Module",
+  description: "糖心Vlog",
+  author: "李小白",
   site: "https://txxkl7s60j.com",
   contentType: "video",
   detailCacheDuration: 0,
