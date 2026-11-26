@@ -22,7 +22,7 @@ var WidgetMetadata = {
   description: '萝莉岛，对就那个岛',
   author: "李小白",
   site: H,
-  version: '1.0.5',
+  version: '1.0.6',
   requiredVersion: '0.0.7',
   contentType: 'video',
   modules: [
@@ -65,7 +65,7 @@ var WidgetMetadata = {
     {
       id: 'block1',
       title: '热播',
-      subtitle: '65',
+      subtitle: '',
       functionName: 'loadCategory',
       params: [
         {
@@ -120,7 +120,7 @@ var WidgetMetadata = {
     {
       id: 'block2',
       title: '萝莉',
-      subtitle: '分类 / 标签都在 enumOptions 里自己填',
+      subtitle: '',
       functionName: 'loadCategory',
       params: [
         {
@@ -162,7 +162,7 @@ var WidgetMetadata = {
     {
       id: 'block36',
       title: '伦理',
-      subtitle: '分类 / 标签都在 enumOptions 里自己填',
+      subtitle: '',
       functionName: 'loadCategory',
       params: [
         {
