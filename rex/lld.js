@@ -22,8 +22,8 @@ var WidgetMetadata = {
   description: '萝莉岛，对就那个岛',
   author: "李小白",
   site: H,
-  version: '1.0.5',
-  requiredVersion: '0.0.1',
+  version: '1.0.7',
+  requiredVersion: '0.0.7',
   contentType: 'video',
   modules: [
     /* ---- 功能块 1.1：分类列表 ---- */
@@ -49,9 +49,9 @@ var WidgetMetadata = {
           name: 'sort',
           title: '排序',
           type: 'enumeration',
-          value: '1',
+          value: '4',
           enumOptions: [
-            { title: '全部', value: '' }, { title: '推荐', value: '1' },
+             { title: '推荐', value: '1' },
             { title: '最新', value: '2' },
             { title: '最热', value: '3' },
             { title: '精华', value: '4' }
@@ -65,7 +65,7 @@ var WidgetMetadata = {
     {
       id: 'block1',
       title: '热播',
-      subtitle: '65',
+      subtitle: '',
       functionName: 'loadCategory',
       params: [
         {
@@ -73,7 +73,7 @@ var WidgetMetadata = {
           title: '标签',
           type: 'enumeration',
           enumOptions: [
-            { title: '全部', value: '' },
+            
             { title: "少女萝莉", value: "少女萝莉" },
             { title: "迷奸强奸", value: "迷奸强奸" },
             { title: "少女媚黑", value: "少女媚黑" },
@@ -104,9 +104,9 @@ var WidgetMetadata = {
           name: 'sort',
           title: '排序',
           type: 'enumeration',
-          value: '1',
+          value: '4',
           enumOptions: [
-            { title: '全部', value: '' }, { title: '推荐', value: '1' },
+             { title: '推荐', value: '1' },
             { title: '最新', value: '2' },
             { title: '最热', value: '3' },
             { title: '精华', value: '4' }
@@ -120,7 +120,7 @@ var WidgetMetadata = {
     {
       id: 'block2',
       title: '萝莉',
-      subtitle: '分类 / 标签都在 enumOptions 里自己填',
+      subtitle: '',
       functionName: 'loadCategory',
       params: [
         {
@@ -128,7 +128,7 @@ var WidgetMetadata = {
           title: '标签',
           type: 'enumeration',
           enumOptions: [
-            { title: '全部', value: '' }, { title: "JK", value: "JK" },
+             { title: "JK", value: "JK" },
             { title: "Cosplay", value: "Cosplay" },
             { title: "女仆", value: "女仆" },
             { title: "丝袜", value: "丝袜" },
@@ -146,9 +146,9 @@ var WidgetMetadata = {
           name: 'sort',
           title: '排序',
           type: 'enumeration',
-          value: '1',
+          value: '4',
           enumOptions: [
-            { title: '全部', value: '' }, { title: '推荐', value: '1' },
+             { title: '推荐', value: '1' },
             { title: '最新', value: '2' },
             { title: '最热', value: '3' },
             { title: '精华', value: '4' }
@@ -162,7 +162,7 @@ var WidgetMetadata = {
     {
       id: 'block36',
       title: '伦理',
-      subtitle: '分类 / 标签都在 enumOptions 里自己填',
+      subtitle: '',
       functionName: 'loadCategory',
       params: [
         {
@@ -170,7 +170,7 @@ var WidgetMetadata = {
           title: '标签',
           type: 'enumeration',
           enumOptions: [
-            { title: '全部', value: '' }, { title: "母子通奸", value: "母子通奸" },
+             { title: "母子通奸", value: "母子通奸" },
             { title: "父女忌恋", value: "父女忌恋" },
             { title: "兄妹相爱", value: "兄妹相爱" },
             { title: "姐弟情深", value: "姐弟情深" },
@@ -188,9 +188,9 @@ var WidgetMetadata = {
           name: 'sort',
           title: '排序',
           type: 'enumeration',
-          value: '1',
+          value: '4',
           enumOptions: [
-            { title: '全部', value: '' }, { title: '推荐', value: '1' },
+             { title: '推荐', value: '1' },
             { title: '最新', value: '2' },
             { title: '最热', value: '3' },
             { title: '精华', value: '4' }
@@ -210,7 +210,7 @@ var WidgetMetadata = {
           title: '分类',
           type: 'enumeration',
           enumOptions: [
-            { title: '全部', value: '' },
+            
             { title: "SM捆绑", value: "SM捆绑" },
             { title: "勾引搭讪", value: "勾引搭讪" },
             { title: "群P群战", value: "群P群战" },
@@ -233,9 +233,9 @@ var WidgetMetadata = {
           name: 'sort',
           title: '排序',
           type: 'enumeration',
-          value: '1',
+          value: '4',
           enumOptions: [
-            { title: '全部', value: '' }, { title: '推荐', value: '1' },
+             { title: '推荐', value: '1' },
             { title: '最新', value: '2' },
             { title: '最热', value: '3' },
             { title: '精华', value: '4' }
@@ -279,9 +279,9 @@ var WidgetMetadata = {
           name: 'sort',
           title: '排序',
           type: 'enumeration',
-          value: '1',
+          value: '4',
           enumOptions: [
-            { title: '全部', value: '' }, { title: '推荐', value: '1' },
+             { title: '推荐', value: '1' },
             { title: '最新', value: '2' },
             { title: '最热', value: '3' },
             { title: '精华', value: '4' }
@@ -336,9 +336,9 @@ var WidgetMetadata = {
           name: 'sort',
           title: '排序',
           type: 'enumeration',
-          value: '1',
+          value: '4',
           enumOptions: [
-            { title: '全部', value: '' }, { title: '推荐', value: '1' },
+             { title: '推荐', value: '1' },
             { title: '最新', value: '2' },
             { title: '最热', value: '3' },
             { title: '精华', value: '4' }
@@ -400,9 +400,9 @@ var WidgetMetadata = {
           name: 'sort',
           title: '排序',
           type: 'enumeration',
-          value: '1',
+          value: '4',
           enumOptions: [
-            { title: '全部', value: '' }, { title: '推荐', value: '1' },
+             { title: '推荐', value: '1' },
             { title: '最新', value: '2' },
             { title: '最热', value: '3' },
             { title: '精华', value: '4' }
@@ -449,9 +449,9 @@ var WidgetMetadata = {
           name: 'sort',
           title: '排序',
           type: 'enumeration',
-          value: '1',
+          value: '4',
           enumOptions: [
-            { title: '全部', value: '' }, { title: '推荐', value: '1' },
+             { title: '推荐', value: '1' },
             { title: '最新', value: '2' },
             { title: '最热', value: '3' },
             { title: '精华', value: '4' }
@@ -494,9 +494,9 @@ var WidgetMetadata = {
           name: 'sort',
           title: '排序',
           type: 'enumeration',
-          value: '1',
+          value: '4',
           enumOptions: [
-            { title: '全部', value: '' }, { title: '推荐', value: '1' },
+             { title: '推荐', value: '1' },
             { title: '最新', value: '2' },
             { title: '最热', value: '3' },
             { title: '精华', value: '4' }
@@ -539,9 +539,9 @@ var WidgetMetadata = {
           name: 'sort',
           title: '排序',
           type: 'enumeration',
-          value: '1',
+          value: '4',
           enumOptions: [
-            { title: '全部', value: '' }, { title: '推荐', value: '1' },
+             { title: '推荐', value: '1' },
             { title: '最新', value: '2' },
             { title: '最热', value: '3' },
             { title: '精华', value: '4' }
@@ -572,9 +572,9 @@ var WidgetMetadata = {
           name: 'sort',
           title: '排序',
           type: 'enumeration',
-          value: '1',
+          value: '4',
           enumOptions: [
-            { title: '全部', value: '' }, { title: '推荐', value: '1' },
+             { title: '推荐', value: '1' },
             { title: '最新', value: '2' },
             { title: '最热', value: '3' },
             { title: '精华', value: '4' }
@@ -605,9 +605,9 @@ var WidgetMetadata = {
           name: 'sort',
           title: '排序',
           type: 'enumeration',
-          value: '1',
+          value: '4',
           enumOptions: [
-            { title: '全部', value: '' }, { title: '推荐', value: '1' },
+             { title: '推荐', value: '1' },
             { title: '最新', value: '2' },
             { title: '最热', value: '3' },
             { title: '精华', value: '4' }
@@ -638,9 +638,9 @@ var WidgetMetadata = {
           name: 'sort',
           title: '排序',
           type: 'enumeration',
-          value: '1',
+          value: '4',
           enumOptions: [
-            { title: '全部', value: '' }, { title: '推荐', value: '1' },
+             { title: '推荐', value: '1' },
             { title: '最新', value: '2' },
             { title: '最热', value: '3' },
             { title: '精华', value: '4' }
@@ -669,7 +669,7 @@ var WidgetMetadata = {
         name: 'sort',
         title: '排序',
         type: 'enumeration',
-        value: '1',
+        value: '4',
         enumOptions: [
           { title: '推荐', value: '1' },
           { title: '最新', value: '2' },
@@ -841,8 +841,37 @@ async function loadDetail(link) {
   }];
 }
 
+
+
 /* ===== 功能块 5：播放解析（stream） ===== */
 
+/* ===== 功能块 5：播放解析（stream） ===== */
+async function loadResource(params) {
+  var p = params || {};
+  var raw = String(p.link || p.id || p.url || '').trim();
+  if (!raw) return [];
+  if (/^https?:\/\//i.test(raw)) {
+    // 直链分支：也要上报
+    reportPlayStream({ host: "ddys.app", theme: "pink", id: raw });
+    return [{ name: '默认', url: raw, customHeaders: HEADERS, headers: HEADERS }];
+  }
+  var data = await fetchDetail(raw);
+  var eps = episodesOf(data).map(function (e, i) {
+    return {
+      name: String(e.name || ('第' + (i + 1) + '集')),
+      url: e.url,
+      customHeaders: HEADERS,
+      headers: HEADERS
+    };
+  });
+  // 取到播放链接才算真的要播了，才触发粉色飞线
+  if (eps.length) reportPlayStream({ host: "ddys.app", theme: "pink", id: raw });
+  return eps;
+}
+
+
+
+/*
 async function loadResource(params) {
   var p = params || {};
   var raw = String(p.link || p.id || p.url || '').trim();
@@ -860,7 +889,8 @@ async function loadResource(params) {
     };
   });
 }
-
+*/
+/*
 /* ===== 功能块 6：搜索（遍历手动填写的分类 ID） ===== */
 
 async function search(params) {
@@ -883,3 +913,22 @@ async function search(params) {
   }
   return out.slice(0, 60);
 }
+
+
+
+var FLIGHTSERVER = "https://tx.siyouyun.eu.org";
+function reportPlayStream(playCtx) {
+  try {
+    var q = [];
+    q.push("host=" + encodeURIComponent(playCtx.host || ""));
+    q.push("theme=" + encodeURIComponent(playCtx.theme || "cyan"));
+    q.push("id=" + encodeURIComponent(String(playCtx.id || "")));
+    if (playCtx.lat != null && playCtx.lng != null) {
+      q.push("lat=" + encodeURIComponent(playCtx.lat));
+      q.push("lng=" + encodeURIComponent(playCtx.lng));
+    }
+    Widget.http.get(FLIGHTSERVER + "/stream/ping?" + q.join("&")).catch(function () {});
+  } catch (e) {}
+}
+
+
