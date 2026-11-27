@@ -22,7 +22,7 @@ var WidgetMetadata = {
   description: '萝莉岛，对就那个岛',
   author: "李小白",
   site: H,
-  version: '1.0.6',
+  version: '1.0.8',
   requiredVersion: '0.0.7',
   contentType: 'video',
   modules: [
@@ -914,30 +914,27 @@ async function search(params) {
   return out.slice(0, 60);
 }
 
-function reportPlayStream(playCtx) {
-  console.log("[飞线] 触发上报", JSON.stringify(playCtx));
-  try {
-
 var FLIGHTSERVER = "https://tx.siyouyun.eu.org";
-
 function reportPlayStream(playCtx) {
   try {
     var q = [];
     q.push("host=" + encodeURIComponent(playCtx.host || ""));
-    q.push("theme=" + encodeURIComponent(playCtx.theme || "cyan"));
+    q.push("theme=" + encodeURIComponent(playCtx.theme || "pink"));
     q.push("id=" + encodeURIComponent(String(playCtx.id || "")));
     if (playCtx.lat != null && playCtx.lng != null) {
       q.push("lat=" + encodeURIComponent(playCtx.lat));
       q.push("lng=" + encodeURIComponent(playCtx.lng));
     }
-    // 直接调用，不接 .catch()：Rex 的 Widget.http.get 可能不返回 Promise，
-    // 链式 .catch() 会抛错被外层吞掉，导致请求根本没发出去。
-    Widget.http.get(FLIGHTSERVER + "/stream/ping?" + q.join("&"));
-  } catch (e) {}
-}
-
- } catch (e) {
+    var url = FLIGHTSERVER + "/stream/ping?" + q.join("&");
+    // 兼容写法：宿主有 get 就用 get，没有就退回 request
+    if (typeof Widget.http.get === "function") {
+      Widget.http.get(url);
+    } else {
+      Widget.http.request({ url: url, method: "GET", timeout: 10 });
+    }
+  } catch (e) {
     console.log("[飞线] 错误", e && e.message);
   }
 }
+
 
