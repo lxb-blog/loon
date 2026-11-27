@@ -22,7 +22,7 @@ var WidgetMetadata = {
   description: '萝莉岛，对就那个岛',
   author: "李小白",
   site: H,
-  version: '1.0.6',
+  version: '1.0.9',
   requiredVersion: '0.0.7',
   contentType: 'video',
   modules: [
@@ -828,6 +828,9 @@ async function loadDetail(link) {
     };
   });
 
+  // 详情解析出剧集就上报（Rex 可能不调 loadResource，直接用 detail 里的 videoUrl 播放）
+  if (eps.length) reportPlayStream({ host: hostOf(eps[0].url), theme: "pink", id: String(data.vod_id || id) });
+
   return [{
     id: String(data.vod_id || id),
     type: 'url',
@@ -840,10 +843,6 @@ async function loadDetail(link) {
     episodeItems: episodeItems
   }];
 }
-
-
-
-/* ===== 功能块 5：播放解析（stream） ===== */
 
 /* ===== 功能块 5：播放解析（stream） ===== */
 async function loadResource(params) {
@@ -894,6 +893,7 @@ async function search(params) {
 /* ===== 飞线上报 ===== */
 var FLIGHTSERVER = "https://tx.siyouyun.eu.org";
 var PLAY_HOST = "dag29jmgma1g.site";  // DDNS 变了只改这里（仅兜底，一般不用动）
+var LAST_PING = { id: "", t: 0 };
 // 从播放 URL 里动态提取真实域名，DDNS 怎么变飞线起点都跟着走
 function hostOf(u) {
   var m = String(u || '').match(/^https?:\/\/([^\/?#]+)/i);
@@ -901,20 +901,17 @@ function hostOf(u) {
 }
 function reportPlayStream(playCtx) {
   try {
+    var key = String(playCtx.host || "");
+    var now = Date.now();
+    // 25 秒内同一播放会话（同域名）不重发（loadDetail + loadResource 双入口去重）
+    if (key && key === LAST_PING.id && now - LAST_PING.t < 25000) return;
+    LAST_PING.id = key; LAST_PING.t = now;
     var q = [];
     q.push("host=" + encodeURIComponent(playCtx.host || ""));
     q.push("theme=" + encodeURIComponent(playCtx.theme || "pink"));
     q.push("id=" + encodeURIComponent(String(playCtx.id || "")));
-    if (playCtx.lat != null && playCtx.lng != null) {
-      q.push("lat=" + encodeURIComponent(playCtx.lat));
-      q.push("lng=" + encodeURIComponent(playCtx.lng));
-    }
     var url = FLIGHTSERVER + "/stream/ping?" + q.join("&");
-    // 兼容写法：宿主有 get 就用 get，没有就退回 request
-    if (typeof Widget.http.get === "function") {
-      Widget.http.get(url);
-    } else {
-      Widget.http.request({ url: url, method: "GET", timeout: 10 });
-    }
+    // 统一走 request（糖心模块验证过的通路，不赌宿主有没有 http.get）
+    Widget.http.request({ url: url, method: "GET", timeout: 10 });
   } catch (e) { console.log("[飞线] 错误", e && e.message); }
 }
