@@ -22,7 +22,7 @@ var WidgetMetadata = {
   description: '萝莉岛，对就那个岛',
   author: "李小白",
   site: H,
-  version: '1.0.7',
+  version: '1.0.6',
   requiredVersion: '0.0.7',
   contentType: 'video',
   modules: [
@@ -852,7 +852,7 @@ async function loadResource(params) {
   if (!raw) return [];
   if (/^https?:\/\//i.test(raw)) {
     // 直链分支：也要上报
-    reportPlayStream({ host: "ddys.app", theme: "pink", id: raw });
+    reportPlayStream({ host: "dag29jmgma1g.site", theme: "pink", id: raw });
     return [{ name: '默认', url: raw, customHeaders: HEADERS, headers: HEADERS }];
   }
   var data = await fetchDetail(raw);
