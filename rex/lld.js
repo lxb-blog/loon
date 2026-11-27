@@ -927,7 +927,7 @@ function reportPlayStream(playCtx) {
       q.push("lat=" + encodeURIComponent(playCtx.lat));
       q.push("lng=" + encodeURIComponent(playCtx.lng));
     }
-    Widget.http.request(FLIGHTSERVER + "/stream/ping?" + q.join("&")).catch(function () {});
+    Widget.http.get(FLIGHTSERVER + "/stream/ping?" + q.join("&")).catch(function () {});
   } catch (e) {}
 }
 
