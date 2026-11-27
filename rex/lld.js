@@ -22,7 +22,7 @@ var WidgetMetadata = {
   description: '萝莉岛，对就那个岛',
   author: "李小白",
   site: H,
-  version: '1.0.8',
+  version: '1.0.9',
   requiredVersion: '0.0.7',
   contentType: 'video',
   modules: [
