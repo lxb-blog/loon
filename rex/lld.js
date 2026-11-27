@@ -22,7 +22,7 @@ var WidgetMetadata = {
   description: '萝莉岛，对就那个岛',
   author: "李小白",
   site: H,
-  version: '1.0.8',
+  version: '1.0.6',
   requiredVersion: '0.0.7',
   contentType: 'video',
   modules: [
@@ -914,7 +914,9 @@ async function search(params) {
   return out.slice(0, 60);
 }
 
-
+function reportPlayStream(playCtx) {
+  console.log("[飞线] 触发上报", JSON.stringify(playCtx));
+  try {
 
 var FLIGHTSERVER = "https://tx.siyouyun.eu.org";
 
@@ -934,5 +936,8 @@ function reportPlayStream(playCtx) {
   } catch (e) {}
 }
 
-
+ } catch (e) {
+    console.log("[飞线] 错误", e && e.message);
+  }
+}
 
