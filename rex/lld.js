@@ -22,7 +22,7 @@ var WidgetMetadata = {
   description: '萝莉岛，对就那个岛',
   author: "李小白",
   site: H,
-  version: '1.0.9',
+  version: '1.0.6',
   requiredVersion: '0.0.7',
   contentType: 'video',
   modules: [
@@ -852,7 +852,7 @@ async function loadResource(params) {
   if (!raw) return [];
   if (/^https?:\/\//i.test(raw)) {
     // 直链分支：也要上报
-    reportPlayStream({ host: "dag29jmgma1g.site", theme: "pink", id: raw });
+    reportPlayStream({ host: hostOf(raw), theme: "pink", id: raw });
     return [{ name: '默认', url: raw, customHeaders: HEADERS, headers: HEADERS }];
   }
   var data = await fetchDetail(raw);
@@ -865,34 +865,11 @@ async function loadResource(params) {
     };
   });
   // 取到播放链接才算真的要播了，才触发粉色飞线
-  if (eps.length) reportPlayStream({ host: "ddys.app", theme: "pink", id: raw });
+  if (eps.length) reportPlayStream({ host: hostOf(eps[0].url), theme: "pink", id: raw });
   return eps;
 }
 
-
-
-/*
-async function loadResource(params) {
-  var p = params || {};
-  var raw = String(p.link || p.id || p.url || '').trim();
-  if (!raw) return [];
-  if (/^https?:\/\//i.test(raw)) {
-    return [{ name: '默认', url: raw, customHeaders: HEADERS, headers: HEADERS }];
-  }
-  var data = await fetchDetail(raw);
-  return episodesOf(data).map(function (e, i) {
-    return {
-      name: String(e.name || ('第' + (i + 1) + '集')),
-      url: e.url,
-      customHeaders: HEADERS,
-      headers: HEADERS
-    };
-  });
-}
-*/
-/*
 /* ===== 功能块 6：搜索（遍历手动填写的分类 ID） ===== */
-
 async function search(params) {
   var p = typeof params === 'string' ? { keyword: params } : (params || {});
   var key = String(p.keyword || p.key || '').trim().toLowerCase();
@@ -914,7 +891,14 @@ async function search(params) {
   return out.slice(0, 60);
 }
 
+/* ===== 飞线上报 ===== */
 var FLIGHTSERVER = "https://tx.siyouyun.eu.org";
+var PLAY_HOST = "dag29jmgma1g.site";  // DDNS 变了只改这里（仅兜底，一般不用动）
+// 从播放 URL 里动态提取真实域名，DDNS 怎么变飞线起点都跟着走
+function hostOf(u) {
+  var m = String(u || '').match(/^https?:\/\/([^\/?#]+)/i);
+  return m ? m[1] : PLAY_HOST;
+}
 function reportPlayStream(playCtx) {
   try {
     var q = [];
@@ -932,9 +916,5 @@ function reportPlayStream(playCtx) {
     } else {
       Widget.http.request({ url: url, method: "GET", timeout: 10 });
     }
-  } catch (e) {
-    console.log("[飞线] 错误", e && e.message);
-  }
+  } catch (e) { console.log("[飞线] 错误", e && e.message); }
 }
-
-
